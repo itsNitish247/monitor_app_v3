@@ -17,7 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../appStore';
 import Breadcrumb from './BreadCrumb';
-import { Grow } from '@mui/material';
+
 
 
 const AppBar = styled(MuiAppBar, {
@@ -25,27 +25,32 @@ const AppBar = styled(MuiAppBar, {
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   width: open ? 'calc(100% - 240px)' : '100%',
-
+  backgroundColor: theme.palette.common.white,
+  color: theme.palette.text.primary, 
 }));
+
+
+
 
 const BreadcrumbsWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   position: 'fixed',
-  top: 64, // Adjust this value based on your app's layout
+  top: 80, // Adjust this value based on your app's layout
   left: open ? 240 : 0,
   width: open ? `calc(100% - 240px)` : '100%', 
+  backgroundColor: theme.palette.common.white,
   transition: theme.transitions.create(['width', 'left'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }), 
 }));
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
+  border: '1px solid black', // Set border color to black
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
