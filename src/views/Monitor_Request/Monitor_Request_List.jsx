@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Monitor_Request_List() {
+function MonitorRequestList() {
   return (
     <div>
-      
+      HI
     </div>
   )
 }
 
-export default Monitor_Request_List
+export default MonitorRequestList

@@ -1,51 +1,46 @@
-import * as React from 'react';
-import { emphasize, styled } from '@mui/material/styles';
+import React from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Chip from '@mui/material/Chip';
-import HomeIcon from '@mui/icons-material/Home';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-const StyledBreadcrumb = styled(Chip)(({ theme }) => {
-  const backgroundColor =
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[100]
-      : theme.palette.grey[800];
-  return {
-    backgroundColor,
-    height: theme.spacing(3),
-    color: theme.palette.text.primary,
-    fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
-      backgroundColor: emphasize(backgroundColor, 0.06),
-    },
-    '&:active': {
-      boxShadow: theme.shadows[1],
-      backgroundColor: emphasize(backgroundColor, 0.12),
-    },
-  };
-}); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
+import Link from '@mui/material/Link';
+import { useLocation } from 'react-router-dom';
 
 function handleClick(event) {
   event.preventDefault();
   console.info('You clicked a breadcrumb.');
 }
 
-export default function CustomizedBreadcrumbs() {
+export default function ActiveLastBreadcrumb() {
+  const location = useLocation();
+  const pathnames = location.pathname.split('/').filter((x) => x);
+
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
-        <StyledBreadcrumb
-          component="a"
-          href="#"
-          label="Home"
-          icon={<HomeIcon fontSize="small" />}
-        />
-        <StyledBreadcrumb component="a" href="#" label="Catalog" />
-        <StyledBreadcrumb
-          label="Accessories"
-          deleteIcon={<ExpandMoreIcon />}
-          onDelete={handleClick}
-        />
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+        {pathnames.map((name, index) => {
+          const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+          const isLast = index === pathnames.length - 1;
+          return isLast ? (
+            <Link
+              key={name}
+              underline="hover"
+              color="text.primary"
+              aria-current="page"
+            >
+              {name}
+            </Link>
+          ) : (
+            <Link
+              key={name}
+              underline="hover"
+              color="inherit"
+              href={routeTo}
+            >
+              {name}
+            </Link>
+          );
+        })}
       </Breadcrumbs>
     </div>
   );
