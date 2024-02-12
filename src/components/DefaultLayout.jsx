@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { Children } from 'react';
 import Sidenav from './Sidenav';
-import {  Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import NavBar from './NavBar';
+import ActiveLastBreadcrumb from './BreadCrumb';
 
 
-function DefaultLayout() {
+function DefaultLayout({children}) {
   return (
  <>
-    
-        <Grid>
-          <NavBar />
-        </Grid>
-    
-    
-  
-        <Grid>
-          <Sidenav/>
-        </Grid>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Sidenav />
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <NavBar />
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "88px" }}>
+          <ActiveLastBreadcrumb /> 
+        </Box>
+        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+     {children}
+        </Box>
+      </Box>
+    </Box>
         </>
   );
 }

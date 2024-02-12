@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TextField, Button, Grid, Typography, Snackbar } from '@mui/material';
+import { TextField, Button, Grid, Typography, Snackbar, Paper } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import { getServerById, addServers, updateServers,  } from '../../api/server-service';
-
-const Details = () => {
+import DeleteIcon from '@mui/icons-material/Delete';
+const ServerDetails = () => {
   const navigate = useNavigate();
   const params = useParams();
   const serverId = params.serverId;
@@ -124,72 +124,82 @@ const Details = () => {
   };
 
   return (
-    <form
-      className="row g-3 needs-validation"
-      noValidate
-      onSubmit={handleSubmit}
-    >
-      <Grid container spacing={3}>
-        <Grid item md={6}>
-          <TextField
-            id="serverName"
-            label="Server Name"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Grid>
-        <Grid item md={6}>
-          <TextField
-            id="serverHost"
-            label="Server Host"
-            required 
-            value={host}
-            onChange={(e) => handleHostChange(e.target.value)}
-          />
-        </Grid>
-        <Grid item md={6}>
-          <Typography variant="h6">Services</Typography>
-          {ports.map((port, index) => (
-            <div key={index} className="d-flex mb-3">
-              <div className="me-3">
+    <Grid container spacing={1} justifyContent="center">
+      <Grid item xs={12} md={12}>
+        <Paper elevation={10}>
+          <form
+            className="row g-3 needs-validation"
+            noValidate
+            onSubmit={handleSubmit}
+          >
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Typography variant="h5">Server Details</Typography>
+              </Grid>
+              <Grid item xs={6}>
                 <TextField
-                  type="number"
-                  label="Port"
-                  required
-                  value={port.ports}
-                  onChange={(e) => handlePortChange(index, 'ports', e.target.value)}
+                  id="serverName"
+                  label="Server Name"
+                  required  
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
-              </div>
-              <div>
-                <TextField 
-                  type="text"
-                  label="Service Name"
-                  required
-                  value={port.serviceName}
-                  onChange={(e) => handleServiceNameChange(index, e.target.value)}
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="serverHost"
+                  label="Server Host"
+                  required 
+                  fullWidth
+                  value={host}
+                  onChange={(e) => handleHostChange(e.target.value)}
                 />
-              </div>
-              {index > 0 && (
-                <div className="ms-3" style={{ cursor: 'pointer', color: 'black' }} onClick={() => handleDelete(index)}>
-                  {/* Icon for delete */}
-                </div>
-              )}
-            </div>
-          ))}
-          <Button color="primary" onClick={addPort}>Add more Services</Button>
-        </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h6">Services</Typography>
+                {ports.map((port, index) => (
+                  <div key={index} className="d-flex mb-3">
+                    <div className="me-3">
+                      <TextField
+                        type="number"
+                        label="Port"
+                        required
+                        fullWidth
+                        value={port.ports}
+                        onChange={(e) => handlePortChange(index, 'ports', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <TextField 
+                        type="text"
+                        label="Service Name"
+                        required
+                        fullWidth
+                        value={port.serviceName}
+                        onChange={(e) => handleServiceNameChange(index, e.target.value)}
+                      />
+                    </div>
+                    {index > 0 && (
+                      <div className="ms-3" style={{ cursor: 'pointer', color: 'black' }} onClick={() => handleDelete(index)}>
+                       <DeleteIcon />
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <Button color="primary" onClick={addPort}>Add more Services</Button>
+              </Grid>
+            </Grid>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
+              <MuiAlert elevation={6} variant="filled" onClose={handleSnackbarClose} severity={snackbarSeverity}>
+                {snackbarMessage}
+              </MuiAlert>
+            </Snackbar>
+          </form>
+        </Paper>
       </Grid>
-
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
-        <MuiAlert elevation={6} variant="filled" onClose={handleSnackbarClose} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
-    </form>
+    </Grid>
   );
 };
 
-export default Details;
-
-
+export default ServerDetails;

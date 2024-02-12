@@ -6,14 +6,15 @@ import {
   CardHeader,
   Grid,
   Snackbar,
-  Typography
+  Typography,
+  Divider
 } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import { getServers } from "../../api/server-service";
 import { Link as RouterLink } from "react-router-dom";
 import CustomPagination from "../../pagination/pagination";
 import Server from "./Server";
-import "./ServerList.scss";
+import "./Server_Styles/ServerList.scss";
 
 function ServerList() {
   const [servers, setServers] = useState([]);
@@ -22,27 +23,31 @@ function ServerList() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  
 
   useEffect(() => {
     fetchServers();
   }, []);
-  
+
   const fetchServers = () => {
     getServers()
       .then((response) => {
         console.log("Server data:", response.data);
         const servers = response.data;
         setServers(servers);
-
-        if (servers && servers.length > 0) {
-          showSnackbar("Successfully fetched all Servers.", "success");
-        } else {
-          console.log("No data found");
-        }
+        showSnackbar("Successfully fetched all Servers.", "success");
       })
       .catch((error) => {
         console.log(error);
-        showSnackbar(error.message, "error");
+        showSnackbar("Error fetching servers: " + error.message, "error");
       });
   };
 
@@ -57,7 +62,7 @@ function ServerList() {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <Paper elevation={10}>
           <CardHeader
@@ -81,7 +86,7 @@ function ServerList() {
             {servers && servers.length === 0 ? (
               <Typography>No Servers Added Yet...</Typography>
             ) : (
-              <div className="table-container">
+              <div className="table-container"> 
                 <table className="table">
                   <thead>
                     <tr>
@@ -91,6 +96,7 @@ function ServerList() {
                       <th style={{ padding: "8px" }}>Status</th>
                     </tr>
                   </thead>
+               
                   <tbody>
                     {servers.map((item, index) => (
                       <Server key={item.id} item={item} />
@@ -98,7 +104,9 @@ function ServerList() {
                   </tbody>
                 </table>
               </div>
+          
             )}
+          
             <CustomPagination
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
@@ -111,6 +119,7 @@ function ServerList() {
       </Grid>
 
       <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
         open={snackbarOpen}
         autoHideDuration={5000}
         onClose={handleCloseSnackbar}

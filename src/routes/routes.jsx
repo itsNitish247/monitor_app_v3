@@ -7,7 +7,8 @@
   import DatabaseList from '../views/Database/DatabaseList';
 
 import ServerList from '../views/Server/ServerList';
-import Servers from '../views/Server/Servers';
+import ServerDetails from '../views/Server/ServerDetails';
+
 
   const routes = [
 
@@ -29,7 +30,13 @@ import Servers from '../views/Server/Servers';
 
     {
       path: '/servers',
-      element: <Servers/>,
+      element: <ServerList/>,
+      exact: true
+    },
+
+    {
+      path: '/server-detail',
+      element: <ServerDetails/>,
       exact: true
     }
 

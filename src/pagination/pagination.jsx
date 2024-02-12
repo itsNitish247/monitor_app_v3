@@ -18,7 +18,8 @@ function CustomPagination({
     setSelectedPage(1);
   };
 
-  const noPages = Math.ceil(objects.length / noOfRows);
+  const visibleObjects = objects.slice(0, 10); // Display only first 10 rows
+  const noPages = Math.ceil(visibleObjects.length / noOfRows);
 
   return (
     <>

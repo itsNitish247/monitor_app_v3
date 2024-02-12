@@ -4,6 +4,7 @@ import NavBar from '../../components/NavBar';
 import ServerList from './ServerList';
 import Box from '@mui/material/Box';
 import ActiveLastBreadcrumb from '../../components/BreadCrumb'; // Import your ActiveLastBreadcrumb component
+import ServerDetails from './ServerDetails';
 
 export default function Servers() {
   return (
@@ -12,10 +13,11 @@ export default function Servers() {
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         <NavBar />
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "88px" }}>
-          <ActiveLastBreadcrumb /> {/* Render your ActiveLastBreadcrumb component */}
+          <ActiveLastBreadcrumb /> 
         </Box>
         <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <ServerList />
+          <ServerDetails />
+          {/* <ServerList /> */}
         </Box>
       </Box>
     </Box>
