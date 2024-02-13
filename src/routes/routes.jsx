@@ -7,6 +7,8 @@ import ServerDetails from '../views/Server/ServerDetails';
 import DatabaseDetail from '../views/Database/DatabaseDetails';
 import WebServiceDetail from '../views/Webservice/WebServiceDetail';
 import WebServiceList from '../views/Webservice/WebServiceList';
+import UserDetail from '../views/User/UserDetail';
+import UserList from '../views/User/UserList';
 
 const routes = [
   { path: '/dashboard', element: <Dashboard/>, exact: true },
@@ -24,6 +26,10 @@ const routes = [
   { path: '/webservice-detail', element: <WebServiceDetail/>, exact: true },
   { path: '/webservice-list', element: <WebServiceList/>, exact: true },
 
+
+  //for uses
+  { path: '/user-detail', element: <UserDetail/>, exact: true },
+  { path: '/user-list', element: <UserList/>, exact: true },
 ];
 
 export default routes;

@@ -36,8 +36,8 @@ function Parameter({id, parameter, isLastIndex, addParameter, setParameter, remo
           value={key}
           onChange={setParamKey}
         />
+    </Grid>
     
-      </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={3}>
         <TextField

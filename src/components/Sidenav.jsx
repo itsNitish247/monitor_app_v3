@@ -230,15 +230,15 @@ export default function Sidenav() {
 
 
        
-        <DrawerHeader sx={{
+        {/* <DrawerHeader sx={{
           justifyContent: 'center'
         }}>
          SERVICES
-        </DrawerHeader>
+        </DrawerHeader> */}
 
 
         <List>
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/Test-Connection")}}>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/user-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -256,12 +256,34 @@ export default function Sidenav() {
                 >
                 
                 </ListItemIcon>
-                <ListItemText primary="Test Connection" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="Add Users" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
         </List>
 
-
+        <List>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/users-list")}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+              <ApiIcon />
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                
+                </ListItemIcon>
+                <ListItemText primary="Reports" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+        </List>
 
 
 
