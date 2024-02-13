@@ -29,7 +29,7 @@ function ServerList() {
     horizontal: 'right',
   });
 
-  const { vertical, horizontal, open } = state;
+  const { vertical, horizontal,open } = state;
 
   
 

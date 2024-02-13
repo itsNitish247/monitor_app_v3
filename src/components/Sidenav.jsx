@@ -152,7 +152,7 @@ export default function Sidenav() {
 
 
         <List>
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/servers")}}>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/server-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -177,7 +177,7 @@ export default function Sidenav() {
 
 
         <List>
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/Databases")}}>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/database-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -203,7 +203,7 @@ export default function Sidenav() {
 
 
         <List>
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/Webservices")}}>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/webservice-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
