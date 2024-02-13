@@ -117,7 +117,7 @@ const WebServiceList = () => {
 
                       return webServiceList;
                     })}
-                    </tbody>
+                       </tbody>
                 </table>
               </div>
             )}

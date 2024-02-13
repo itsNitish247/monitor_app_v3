@@ -158,10 +158,13 @@ const DatabaseDetail = () => {
             </Grid>
           
             <Grid item xs={6}>
-              <FormControl fullWidth required>
-                <InputLabel>Type</InputLabel>
+              <FormControl fullWidth >
+              <InputLabel id="type">Type</InputLabel>
                 <Select
+                 labelId="type"
+                  id="Type"
                   value={type}
+                  label="Type"
                   onChange={(e) => setType(e.target.value)}
                 >
                   <MenuItem value="mysql">MySQL</MenuItem>
@@ -177,18 +180,6 @@ const DatabaseDetail = () => {
                 type="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                required
-              />
-              
-              
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
                 required
               />
             </Grid>

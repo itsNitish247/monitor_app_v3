@@ -571,11 +571,12 @@ const [isValidName, setIsValidName] = useState(true)
 
     <Grid item xs={2}>
        <FormControl fullWidth>
+       <InputLabel id="http_method">Http-Method</InputLabel>
         <Select
-          // Id="http-method-label"
-          id="http-method"
-         
+         labelId="http_method"
+          id="HttpMethod"
           value={httpMethod}
+          label="Http-Method"
           onChange={(e) => setHttpMethod(e.target.value)}
         >
           <MenuItem value="GET">GET</MenuItem>
@@ -587,7 +588,6 @@ const [isValidName, setIsValidName] = useState(true)
           <MenuItem value="OPTIONS">OPTIONS</MenuItem>
         </Select>
       </FormControl>
-      {httpMethod.length === 0 && <Typography color="error">Please provide a valid Http Method.</Typography>}
     </Grid>
 
     <Grid item xs={12} md={10}>
@@ -599,8 +599,7 @@ const [isValidName, setIsValidName] = useState(true)
         value={url}
         onChange={handleUrlChange}
         fullWidth
-        // error={!isValidUrl}
-        // helperText={!isValidUrl && urlValidationFeedback}
+    
       />
     </Grid>
 
