@@ -51,7 +51,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -74,9 +73,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Sidenav() {
-  // const theme = useTheme();
-  // const [open, setOpen] = React.useState(false);
-  
   const navigate = useNavigate();
 
   const open = useAppStore((state) =>state.dopen)
@@ -123,7 +119,7 @@ export default function Sidenav() {
        
         
         <List>
-        <ListItem disablePadding sx={{ display: 'block' }} onClick={() =>{navigate("/Add_Request")}}>
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={() =>{navigate("/add-request")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
