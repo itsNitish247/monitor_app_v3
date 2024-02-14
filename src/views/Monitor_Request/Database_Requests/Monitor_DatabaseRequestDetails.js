@@ -134,10 +134,12 @@ const DatabaseMonitorDetails = () => {
             fullWidth
             id="name"
             label="Request Name"
+            variant="outlined"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </Grid>
+
         <Grid item xs={6}>
          <Paper elevation={10}>
             <CardHeader title="Database Details" />
@@ -157,7 +159,7 @@ const DatabaseMonitorDetails = () => {
                     )
                   }
                 >
-                  <MenuItem value="">Choose the database</MenuItem>
+                  <MenuItem value=""><em>Choose the database</em></MenuItem>
                   {databases.map((database) => (
                     <MenuItem key={database.id} value={database.id}>
                       {database.name} - {database.host}:{database.port}

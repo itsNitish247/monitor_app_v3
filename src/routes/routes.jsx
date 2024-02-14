@@ -11,6 +11,7 @@ import UserList from '../views/User/UserList';
 import MonitorRequestList from '../views/Monitor_Request/Montior_requestList'
 import ServerMonitorDetails from '../views/Monitor_Request/Server_Requests/Monitor_Server_RequestDetails';
 import DatabaseMonitorDetails from '../views/Monitor_Request/Database_Requests/Monitor_DatabaseRequestDetails';
+import WebServiceMonitorDetails from '../views/Monitor_Request/Webservice_Request.js/Monitor_WebserviceRequestDetails';
 
 
 
@@ -22,6 +23,7 @@ const routes = [
   { path: '/add-request', element: <MonitorRequestList/>, exact: true },
   { path: '/monitor-server-details', element: <ServerMonitorDetails/>, exact: true },
   { path: '/monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },
+  { path: '/monitor-webservice-details', element: <WebServiceMonitorDetails/>, exact: true },
 
  
   //for servers

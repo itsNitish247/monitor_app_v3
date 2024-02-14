@@ -201,7 +201,7 @@ return  (
                     onChange={(e) => setSelectedServer(e.target.value)}
                     label='Servers'
                   >
-                    <MenuItem value="">Choose the server</MenuItem>
+                    <MenuItem value=""><em>Choose the server</em></MenuItem>
                     {servers.map((server) => (
                       <MenuItem key={server.id} value={server.id}>
                         {server.name} - {server.host}
