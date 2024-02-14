@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { getDatabaseRequest } from "../../api/database-service";
 import { Link as RouterLink } from "react-router-dom";
 import Database from "./Database";
-import CustomPagination from "../../pagination/pagination";
+// import CustomPagination from "../../pagination/pagination";
 import { Add as AddIcon } from "@mui/icons-material";
 
 function DatabaseList() {
@@ -101,13 +101,13 @@ function DatabaseList() {
                   </table>
                 </div>
               )}
-              <CustomPagination
+              {/* <CustomPagination
                 selectedPage={selectedPage}
                 setSelectedPage={setSelectedPage}
                 objects={databases}
                 noOfRows={noOfRows}
                 setNoOfRows={setNoOfRows}
-              />
+              /> */}
             </CardContent>
           </Card>
         </Paper>

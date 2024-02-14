@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import User from "./User";
-import '../Server/Server_Styles/ServerList.scss'
+import '../../styles/List.scss'
 import { listUsers } from "../../api/user-service";
 import { Link as RouterLink } from "react-router-dom";
-import "./UserList.scss"
+
 import CustomPagination from "../../pagination/pagination";
 function UserList() {
   const [users, setUsers] = React.useState([]);
