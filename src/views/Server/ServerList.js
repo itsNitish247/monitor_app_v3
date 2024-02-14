@@ -5,7 +5,6 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  Snackbar,
   Typography,
   Table,
   TableBody,
@@ -13,17 +12,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Skeleton,
+  Snackbar,
+  Alert
 } from "@mui/material";
-import { Add as AddIcon, Bolt } from "@mui/icons-material";
+import { Add as AddIcon } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getServers } from "../../api/server-service";
-import CustomTablePagination from "../../pagination/pagination"; 
-// import "../../styles/List.scss";
+import CustomTablePagination from "../../pagination/pagination";
 
 function ServerList() {
   const [servers, setServers] = useState([]);
-  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -36,14 +38,20 @@ function ServerList() {
     getServers()
       .then((response) => {
         console.log("Server data:", response.data);
-        setServers(response.data);
-        showSnackbar("Successfully fetched all Servers.", "success");
+        setTimeout(() => {
+          setServers(response.data);
+          setLoading(false);
+          if (response.data.length > 0) {
+            showSnackbar("Successfully fetched all Servers.", "success");
+          }
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
         showSnackbar("Error fetching servers: " + error.message, "error");
       });
   };
+  
 
   const showSnackbar = (message, severity) => {
     setSnackbarMessage(message);
@@ -86,27 +94,62 @@ function ServerList() {
             <Typography variant="body2" color="text.secondary">
               List of all servers
             </Typography>
-            {servers.length === 0 ? (
-              <Typography>No Servers Added Yet...</Typography>
-            ) : (
-              <TableContainer sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Table >
+            {loading ? ( 
+              <TableContainer>
+                <Table>
                   <TableHead>
                     <TableRow>
-                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
-        <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
-        <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host</TableCell>
-      </TableRow>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(rowsPerPage)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              ) : servers.length === 0 ? (
+  <Typography variant="body3" className="text-secondary">
+    No Servers Added Yet...
+  </Typography>
+            ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host</TableCell>
+                    </TableRow>
                   </TableHead>
                   <TableBody>
                     {servers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((item, index) => (
+                      .map((item) => (
                         <TableRow key={item.id}>
-            <TableCell align="center">{item.id}</TableCell>
-            <TableCell align="center">{item.name}</TableCell>
-            <TableCell align="center">{item.host}</TableCell>
-          </TableRow>
+                          <TableCell align="center">{item.id}</TableCell>
+                          <TableCell align="center">{item.name}</TableCell>
+                          <TableCell align="center">{item.host}</TableCell>
+                        </TableRow>
                       ))}
                   </TableBody>
                 </Table>
@@ -125,11 +168,13 @@ function ServerList() {
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={snackbarOpen}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-        severity={snackbarSeverity}
-      />
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 }

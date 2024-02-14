@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  Card,
+  Paper,
   CardContent,
   CardHeader,
   Grid,
-  Paper,
-  Snackbar,
   Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Skeleton,
+  Snackbar,
+  Alert
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+
 import { getDatabaseRequest } from "../../api/database-service";
 import { Link as RouterLink } from "react-router-dom";
-import Database from "./Database";
-// import CustomPagination from "../../pagination/pagination";
+
 import { Add as AddIcon } from "@mui/icons-material";
+import CustomTablePagination from "../../pagination/pagination";
 
 function DatabaseList() {
+
   const [databases, setDatabases] = useState([]);
-  const navigate = useNavigate();
-  const [noOfRows, setNoOfRows] = useState(4);
-  const [selectedPage, setSelectedPage] = useState(1);
+
+  const [loading, setLoading] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -42,26 +51,38 @@ function DatabaseList() {
   const fetchDatabases = () => {
     getDatabaseRequest()
       .then((response) => {
-        console.log(response);
-        const databases = response.data;
-        setDatabases(databases);
-        if (databases && databases.length > 0) {
+        console.log("Database data:", response.data);
+        setTimeout(() => {
+        setDatabases(response.data);
+        setLoading(false);
+        if (response.data.length > 0) {
           handleSnackbar("Successfully fetched all Databases", "success");
-        } else {
-          console.log("No data found");
         }
+        },2000);
       })
       .catch((error) => {
         console.error(error);
-        handleSnackbar(error.message, "error");
+        handleSnackbar("Error fetching databases:"  + error.message, "error");
       });
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (value) => {
+    setRowsPerPage(value);
+    setPage(0);
+  };
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <Paper elevation={3}>
-          <Card>
+         
             <CardHeader
               title="Database List"
               action={
@@ -80,46 +101,89 @@ function DatabaseList() {
               <Typography variant="body2" className="text-secondary">
                 List of all Databases
               </Typography>
-              {databases && databases.length === 0 ? (
-                <Typography>No Databases Added Yet..</Typography>
+              {loading ? ( 
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(rowsPerPage)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              ) : databases.length === 0 ? (
+  <Typography variant="body3" className="text-secondary">
+    No Databases Added Yet...
+  </Typography>
               ) : (
-                <div className="table-container">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th style={{ padding: "8px" }}>Sl No.</th>
-                        <th style={{ padding: "8px" }}>Name</th>
-                        <th style={{ padding: "8px" }}>Host & port</th>
-                        <th style={{ padding: "8px" }}>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {databases.map((item, index) => (
-                        <Database key={item.id} item={item} />
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host & port</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                      {databases
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell align="center">{item.id}</TableCell>
+                          <TableCell align="center">{item.name}</TableCell>
+                          <TableCell align="center">{item.host}</TableCell>
+                        </TableRow>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
+                  </TableBody>
+                </Table>
+              </TableContainer>
               )}
-              {/* <CustomPagination
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-                objects={databases}
-                noOfRows={noOfRows}
-                setNoOfRows={setNoOfRows}
-              /> */}
+              <CustomTablePagination
+              count={databases.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
             </CardContent>
-          </Card>
+       
         </Paper>
       </Grid>
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        message={snackbarMessage}
-        severity={snackbarSeverity}
-      />
+     >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+  
     </Grid>
   );
 }

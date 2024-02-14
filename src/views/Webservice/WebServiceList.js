@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Button,
-  Grid,
-  Tooltip,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Snackbar,
-  Paper,
-} from "@mui/material";
+
+  import {
+    Button,
+    Paper,
+    CardContent,
+    CardHeader,
+    Grid,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Skeleton,
+    Snackbar,
+    Alert
+  } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import Pagination from "../../pagination/pagination";
+
 import WebService from "./WebService";
 import { listWSRequests } from "../../api/ws-request-service";
 import { Add as AddIcon } from "@mui/icons-material";
+import CustomTablePagination from "../../pagination/pagination";
 
 
 
 const WebServiceList = () => {
 
   const [webServiceRequests, setWebServiceRequests] = useState([]);
-  const [noOfRows, setNoOfRows] = useState(4);
-  const [selectedPage, setSelectedPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
 
   useEffect(() => {
     getWebServiceRequests();
@@ -41,30 +45,42 @@ const WebServiceList = () => {
     setSnackbarOpen(false);
   };
 
-  const showSnackbar = (message, type) => {
+  const showSnackbar = (message, severity) => {
     setSnackbarMessage(message);
-    setSnackbarType(type);
+    setSnackbarSeverity(severity);
     setSnackbarOpen(true);
   };
 
   const getWebServiceRequests = () => {
     listWSRequests()
       .then((response) => {
-        console.log(response);
-        const webServiceRequests = response.data;
-        setWebServiceRequests(webServiceRequests);
-        if (webServiceRequests && webServiceRequests.length > 0) {
+        console.log(response.data);
+        setTimeout(() => {
+        setWebServiceRequests(response.data);
+        setLoading(false);
+        if (response.data.length > 0) {
           showSnackbar("Successfully fetched all Web Services..", "success");
-        } else {
-          console.log("No data found");
-        }
+        } 
+        },2000);
+
       })
       .catch((error) => {
         console.log(error);
-        showSnackbar(error.message, "error");
+        showSnackbar("Error fetching servers: " + error.message, "error");
       });
   };
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (value) => {
+    setRowsPerPage(value);
+    setPage(0);
+  };
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -88,45 +104,74 @@ const WebServiceList = () => {
             <Typography variant="body2" color="textSecondary" component="p">
               List of all web services available.
             </Typography>
-            {webServiceRequests && webServiceRequests.length === 0 ? (
-              <Typography >
-                No Api Added Yet...
-              </Typography>
+            {loading ? ( 
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(rowsPerPage)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              ) : webServiceRequests.length === 0 ? (
+  <Typography variant="body3" className="text-secondary">
+    No Webservices Added Yet...
+  </Typography>
             ) : (
-              <div className="table-container"> 
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th style={{ padding: "8px" }}>Sl No.</th>
-                      <th style={{ padding: "8px" }}>Name</th>
-                      <th style={{ padding: "8px" }}>Url</th>
-                      <th style={{ padding: "8px" }}>Http Method</th>
-                      <th style={{ padding: "8px" }}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {webServiceRequests.map((item, index) => {
-                      let webServiceList;
-
-                      if (
-                        index >= (selectedPage - 1) * noOfRows &&
-                        index < selectedPage * noOfRows
-                      ) {
-                        webServiceList = <WebService key={item.id} item={item} index={index} />;
-                      }
-
-                      return webServiceList;
-                    })}
-                       </tbody>
-                </table>
-              </div>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Url</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Http Method</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {webServiceRequests
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell align="center">{item.id}</TableCell>
+                          <TableCell align="center">{item.name}</TableCell>
+                          <TableCell align="center">{item.host}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             )}
-            <Pagination
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              objects={webServiceRequests}
-              noOfRows={noOfRows}
-              setNoOfRows={setNoOfRows}
+            <CustomTablePagination
+              count={webServiceRequests.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </CardContent>
           </Paper>
@@ -135,9 +180,13 @@ const WebServiceList = () => {
         open={snackbarOpen}
         autoHideDuration={5000}
         onClose={handleSnackbarClose}
-        message={snackbarMessage}
-        color={snackbarType === "success" ? "success" : "error"}
-      />
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };

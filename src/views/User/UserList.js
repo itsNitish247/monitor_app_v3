@@ -1,55 +1,64 @@
-import React from "react";
+import React , {useState , useEffect} from "react";
 import { 
   Button,
   CardContent,
   CardHeader,
   Grid,
-
+  Alert,
   Typography,
   Snackbar,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Skeleton,
 } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
-import User from "./User";
-import '../../styles/List.scss'
+
 import { listUsers } from "../../api/user-service";
 import { Link as RouterLink } from "react-router-dom";
-
-import CustomPagination from "../../pagination/pagination";
+import CustomTablePagination from "../../pagination/pagination";
 function UserList() {
-  const [users, setUsers] = React.useState([]);
-  const [noOfRows, setNoOfRows] = React.useState(4);
-  const [selectedPage, setSelectedPage] = React.useState(1);
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
-  const vertical = "top";
-  const horizontal = "right";
+  const [users, setUsers] = useState([]);
+  const [noOfRows, setNoOfRows] = useState(4);
+  const [selectedPage, setSelectedPage] = useState(1);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUsers();
   }, []);
-
   const getUsers = () => {
     listUsers()
       .then((response) => {
-        console.log(response);
-        let users = response.data;
-        users = users.filter((user) => user.id > 1);
-        setUsers(users);
-        if (users && users.length > 0) {
-          showSnackbar("Successfully fetched all Users..");
-        } else {
-          console.log("No data found ");
+        console.log("users data " ,response.data);
+       setTimeout(() => {
+        setUsers(response.data);
+        setLoading(false);
+    
+       
+        if (response.data.length > 0) {
+          showSnackbar("Successfully fetched all Users..", "success");
+      
         }
+        },2000);
       })
       .catch((error) => {
         console.log(error);
-        showSnackbar(error.message);
+        showSnackbar("Error fetching users: " + error.message, "error");
       });
   };
 
-  const showSnackbar = (message) => {
+  const showSnackbar = (message , severity) => {
     setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
     setSnackbarOpen(true);
   };
 
@@ -57,6 +66,15 @@ function UserList() {
     setSnackbarOpen(false);
   };
 
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+  
+
+  const handleChangeRowsPerPage = (value) => {
+    setRowsPerPage(value);
+    setPage(0);
+  };
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -81,48 +99,92 @@ function UserList() {
             <Typography variant="body2" className="text-medium-emphasis small">
               List of all Registered users
             </Typography>
-           {users && users.length > 0 ? (
-  <div className="table-container"> 
-    <table className="table">
-      <thead>
-        <tr>
-          <th style={{ padding: "8px" }}>Sl No.</th>
-          <th style={{ padding: "8px" }}>Name</th>
-          <th style={{ padding: "8px" }}>Type</th>
-          <th style={{ padding: "8px" }}>E-Mail</th>
-          <th style={{ padding: "8px" }}>Phone Number</th>
-        </tr>
-      </thead>
-      <tbody>
+            {loading ? ( 
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(rowsPerPage)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              ) : users.length === 0 ? (
+  <Typography variant="body3" className="text-secondary">
+    No Users Added Yet...
+  </Typography>
+              ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Type</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Email</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Ph.No</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
         {users
-          .slice((selectedPage - 1) * noOfRows, selectedPage * noOfRows)
-          .map((user, index) => (
-            user.id ? <User key={user.id} user={user} index={index} /> : null
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((item) => (
+            <TableRow key={item.id}>
+                          <TableCell align="center">{item.id}</TableCell>
+                          <TableCell align="center">{item.name}</TableCell>
+                          <TableCell align="center">{item.type}</TableCell>
+                          <TableCell align="center">{item.email}</TableCell>
+                          <TableCell align="center">{item.phoneNumber}</TableCell>
+                        </TableRow>
           ))}
-      </tbody>
-    </table>
-  </div>
-) : (
-  <Typography variant="body1">No Users Added Yet...</Typography>
-)}
+          </TableBody>
+          </Table>
+          </TableContainer>
+              )}
 
-            <CustomPagination
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              objects={users}
-              noOfRows={noOfRows}
-              setNoOfRows={setNoOfRows}
+            <CustomTablePagination
+              count={users.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </CardContent>
           </Paper>
       </Grid>
       <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
+        anchorOrigin={{ vertical:'top', horizontal:"right" }}
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-      />
+        >
+      <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+        </Snackbar>
     </Grid>
   );
 }
