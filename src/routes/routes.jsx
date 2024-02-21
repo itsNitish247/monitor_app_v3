@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from '../menu_items/Dashboard';
+import Dashboard from '../dashboard_items/Dashboard';
 import DatabaseList from '../views/Database/DatabaseList';
 import ServerList from '../views/Server/ServerList';
 import ServerDetails from '../views/Server/ServerDetails';
@@ -12,12 +12,19 @@ import MonitorRequestList from '../views/Monitor_Request/Montior_requestList'
 import ServerMonitorDetails from '../views/Monitor_Request/Server_Requests/Monitor_Server_RequestDetails';
 import DatabaseMonitorDetails from '../views/Monitor_Request/Database_Requests/Monitor_DatabaseRequestDetails';
 import WebServiceMonitorDetails from '../views/Monitor_Request/Webservice_Request.js/Monitor_WebserviceRequestDetails';
+import GroupList from '../views/Group/GroupList';
+import ServerGroupDetail from '../views/server-group/Server_Group_Details';
+import ApexChart from '../dashboard_items/charts/cpu';
+import UserCard from '../dashboard_items/cards/userCard';
 
 
 
 const routes = [
   { path: '/dashboard', element: <Dashboard/>, exact: true },
 
+  // Cards
+   
+  { path: '/users-activity', element: <UserCard/>, exact: true },
 
   //for monitor requests
   { path: '/add-request', element: <MonitorRequestList/>, exact: true },
@@ -25,10 +32,14 @@ const routes = [
   { path: '/monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },
   { path: '/monitor-webservice-details', element: <WebServiceMonitorDetails/>, exact: true },
 
- 
+ //graphs
+ { path: '/metrics', element: <ApexChart/>, exact: true },
   //for servers
   { path: '/server-list', element: <ServerList/>, exact: true },
   { path: '/server-detail', element: <ServerDetails/>, exact: true },
+
+  // for servergroup 
+  { path: '/server-group-details', element: <ServerGroupDetail/>, exact: true },
 
 //for database
   { path: '/database-detail', element: <DatabaseDetail/>, exact: true },
@@ -42,6 +53,8 @@ const routes = [
   //for uses
   { path: '/user-detail', element: <UserDetail/>, exact: true },
   { path: '/user-list', element: <UserList/>, exact: true },
+
+ 
 ];
 
 export default routes;

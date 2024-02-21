@@ -20,7 +20,7 @@ import {
 import { getDatabaseRequest } from "../../api/database-service";
 import { Link as RouterLink } from "react-router-dom";
 
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
 import CustomTablePagination from "../../pagination/pagination";
 
 function DatabaseList() {
@@ -74,6 +74,11 @@ function DatabaseList() {
     setPage(newPage);
   };
 
+
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchDatabases  ();
+  };
   const handleChangeRowsPerPage = (value) => {
     setRowsPerPage(value);
     setPage(0);
@@ -86,15 +91,28 @@ function DatabaseList() {
             <CardHeader
               title="Database List"
               action={
+                <>
+                     <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
                 <Button
                   component={RouterLink}
                   to="/database-detail"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}
+                  sx={{marginLeft :2}}
                 >
                   Add Database
                 </Button>
+                </>
+               
               }
             />
             <CardContent>

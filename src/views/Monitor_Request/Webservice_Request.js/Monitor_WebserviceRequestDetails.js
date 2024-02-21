@@ -36,7 +36,7 @@ const WebServiceMonitorDetails = () => {
 
   const isEditMode = !!webId;
 
-  // UseEffect for loading Selected Monitoring Request for Editing
+
   useEffect(() => {
     if (webId) {
       getMonitorRequestWebserviceById(webId)

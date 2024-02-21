@@ -19,9 +19,9 @@ import React, { useEffect, useState } from "react";
   } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-import WebService from "./WebService";
+
 import { listWSRequests } from "../../api/ws-request-service";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
 import CustomTablePagination from "../../pagination/pagination";
 
 
@@ -40,6 +40,11 @@ const WebServiceList = () => {
   useEffect(() => {
     getWebServiceRequests();
   }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    getWebServiceRequests();
+  };
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -88,15 +93,28 @@ const WebServiceList = () => {
           <CardHeader
             title="Web Service List"
             action={
-              <Button
+              <>
+                  <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
+                <Button
                 component={RouterLink}
                 to="/webservice-detail"
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
+                sx={{marginLeft : 2}}
               >
                 Add Api
               </Button>
+              </>
+            
             }
           />
        

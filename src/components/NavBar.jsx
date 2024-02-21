@@ -209,13 +209,14 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <Typography 
             variant="h6"
+            fontWeight={700}
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Monitoring Tool
+            Vis Proctor
           </Typography>
           <Search>
             <SearchIconWrapper>

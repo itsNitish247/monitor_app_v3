@@ -16,7 +16,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon  , Refresh as RefreshIcon  } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getMonitorWebserviceRequest }   from "../../../api/monitor-service/monitor-request-webservice-service";
 import CustomTablePagination from "../../../pagination/pagination";
@@ -33,6 +33,10 @@ function MonitorWebserviceRequest() {
     fetchMonitorRequests();
   }, []);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchMonitorRequests();
+  };
   const fetchMonitorRequests = () => {
     getMonitorWebserviceRequest()
       .then((response) => {
@@ -78,15 +82,28 @@ function MonitorWebserviceRequest() {
           <CardHeader
             title="Monitor WebService Request"
             action={
-              <Button
+              <>
+                 <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
+                <Button
                 component={RouterLink}
                 to="/monitor-webservice-details"
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
+                sx={{marginLeft :2}}
               >
                 Add Request
               </Button>
+              </>
+             
             }
           />
           <CardContent>

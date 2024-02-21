@@ -16,7 +16,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon  , Refresh as RefreshIcon  } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getMonitorDatabaseRequest }  from "../../../api/monitor-service/monitor-request-database-service";
 import CustomTablePagination from "../../../pagination/pagination";
@@ -33,6 +33,11 @@ function MonitorDatabaseRequest() {
     fetchMonitorRequests();
   }, []);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchMonitorRequests();
+  };
+
   const fetchMonitorRequests = () => {
     getMonitorDatabaseRequest()
       .then((response) => {
@@ -47,7 +52,7 @@ function MonitorDatabaseRequest() {
       })
       .catch((error) => {
         console.log(error);
-        showSnackbar("Error fetching ServerRequests: " + error.message, "error");
+        showSnackbar("Error fetching Database Requests: " + error.message, "error");
       });
   };
   
@@ -75,18 +80,31 @@ function MonitorDatabaseRequest() {
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <Paper elevation={10}>
-          <CardHeader
+        <CardHeader
             title="Monitor Database Request"
             action={
-              <Button
-                component={RouterLink}
-                to="/monitor-database-details"
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-              >
-                Add Request
-              </Button>
+              <>
+              
+                <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/monitor-database-details"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  sx={{ marginLeft: 2 }}
+                >
+                  Add Request
+                  </Button>
+              </>
             }
           />
           <CardContent>

@@ -1,216 +1,11 @@
-//     import React, { useEffect, useState } from 'react';
-//     import {
-//       CButton,
-//       CCol,
-//       CForm,
-//       CFormInput,
-//       CFormFeedback,
-//       CFormLabel,
-//       CRow,
-//       CCard,
-//       CCardBody,
-//       CCardHeader,
-//       CInputGroup,
-//       CFormSelect,
-//     } from '@coreui/react';
-//     import { useParams } from 'react-router-dom';
-//     import { getServers, getServicesById, addServices, updateServices, getAllPorts } from '../../services/server-service';
-//     import { useNavigate } from 'react-router-dom';
-//     const Details = () => {
-//       const navigate = useNavigate();
-//       const params = useParams();
-//       const serverId = params.serverId;
-//       const [server, setServer] = useState({});
-//       const [ports, setPorts] = useState([]);
-//       const [groupName, setGroupName] = useState('');
-//       const [selectedPorts, setSelectedPorts] = useState([]);
-//       const [validated, setValidated] = useState(false);
+  import React, { useEffect, useState } from 'react';
+  import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Grid, Typography, Paper, CardHeader, CardContent } from '@mui/material';
+  import { useParams } from 'react-router-dom';
+  import { getServers, addServices, updateServices } from '../../api/server-service';
+  import { useNavigate } from 'react-router-dom';
 
-//       useEffect(() => {
-//         loadPorts();
-//       }, []);
-//       const loadPorts = async () => {
-//         try {
-//           const response = await getServers();
-//           const serversData = response.data;
-    
-//           if (serversData.length > 0) {
-//             const selectedServer = serversData[0];
-    
-//             if (selectedServer && selectedServer.ports) {
-//               setServer(selectedServer);
-              
-//               // Extract only the required fields (ports and serviceName) from ports
-//               const extractedPorts = selectedServer.ports.map(({ ports }) => ports);
-              
-//               setPorts(extractedPorts);
-//             } else {
-//               console.error('Selected server or ports are undefined.');
-//             }
-//           } else {
-//             console.error('No servers data available.');
-//           }
-//         } catch (error) {
-//           console.error('Error fetching ports:', error);
-//         }
-//       };
-
-//       useEffect(() => {
-//         console.log('Ports:', ports);
-//       }, [ports]);
-
-//       useEffect(() => {
-//         console.log('Selected Ports:', selectedPorts);
-//       }, [selectedPorts]);
-
-//       const handleSubmit = (event) => {
-//         event.preventDefault();
-      
-//         const servicesData = selectedPorts.map((port) => ({
-//           port: parseInt(port),
-//         }));
-      
-//         const serverData = {
-//           groupName,
-//           services: servicesData,
-//         };
-      
-//         if (serverId) {
-//           // Update
-//           updateServices(serverId, serverData)
-//             .then(() => {
-//               console.log('Services updated successfully:', serverData);
-//               navigate("/server-list");
-//             })
-//             .catch((err) => {
-//               console.error('Error updating services:', err);
-//             });
-//         } else {
-//           // Create
-//           addServices(serverData)
-//             .then(() => {
-//               console.log('Services added successfully:', serverData);
-//               navigate("/server-list");
-//             })
-//             .catch((err) => {
-//               console.error('Error adding services:', err);
-//             });
-//         }
-//       };
-      
-//       const handleClear = () => {
-//         setGroupName('');
-//         setSelectedPorts([]);
-//       };
-
-//       return (
-//         <CForm
-//           className="row g-3 needs-validation"
-//           noValidate
-//           validated={validated}
-//           onSubmit={handleSubmit}
-//         >
-//           <CCol md={6}>
-//             <CFormLabel htmlFor="validationCustom02">Group Name</CFormLabel>
-//             <CFormInput type="text" id="validationCustom02" required value={groupName} onChange={(e) => setGroupName(e.target.value)} />
-//             <CFormFeedback valid>Looks good!</CFormFeedback>
-//         <CFormFeedback invalid>Please provide a  name.</CFormFeedback>
-      
-//           </CCol>
-
-//           <CFormSelect
-//   id="validationCustom03"
-//   multiple
-//   defaultValue={selectedPorts.map((port) => port.toString())}
-//   onChange={(e) => {
-//     const selectedPortIds = Array.from(e.target.selectedOptions, (option) => option.value);
-//     // Use the selectedPortIds directly as an array
-//     setSelectedPorts(selectedPortIds);
-//   }}
-// >
-//   {ports && ports.length > 0 ? (
-//     ports.map((port) => (
-//       <option key={port} value={port.toString()}>
-//         {port}
-//       </option>
-//     ))
-//   ) : (
-//     <option value="">Loading ports...</option>
-//   )}
-// </CFormSelect>
-
-
-//           <CCol xs={12}>
-//             <CRow>
-//               <CCol xs={4}></CCol>
-//               <CCol xs={4}></CCol>
-//               <CCol xs={4}>
-//                 <CRow className="align-items-end">
-//                   <CCol xs={3}></CCol>
-//                   <CCol xs={4}>
-//                     <CRow>
-//                       <CButton color="primary" type="submit" className="ms-2">
-//                         Submit
-//                       </CButton>
-//                     </CRow>
-//                   </CCol>
-//                   <CCol xs={1}></CCol>
-//                   <CCol xs={3}>
-//                     <CRow>
-//                       <CButton color="secondary" type="button" className="ms-2" onClick={handleClear}>
-//                         Clear
-//                       </CButton>
-//                     </CRow>
-//                   </CCol>
-//                   <CCol xs={1}></CCol>
-//                 </CRow>
-//               </CCol>
-//             </CRow>
-//           </CCol>
-//         </CForm>
-//       );
-//     };
-//     function ServerGroupDetail() {
-//       return (
-//         <CRow>
-//           <CCol xs={12}>
-//             <CCard className="mb-4">
-//               <CCardHeader>
-//                 <h4>Server Group Details</h4>
-//               </CCardHeader>
-//               <CCardBody>
-//                 <p className="text-medium-emphasis small">
-//                   Complete Detail of the Server Group
-//                 </p>
-//                 <Details />
-//               </CCardBody>
-//             </CCard>
-//           </CCol>
-//         </CRow>
-//       );
-//     }
-
-//     export default ServerGroupDetail;
-import React, { useEffect, useState } from 'react';
-import {
-  CButton,
-  CCol,
-  CForm,
-  CFormInput,
-  CFormFeedback,
-  CFormLabel,
-  CRow,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CInputGroup,
-  CFormSelect,
-} from '@coreui/react';
-import { useParams } from 'react-router-dom';
-import { getServers, getServicesById, addServices, updateServices, getAllPorts } from '../../services/server-service';
-import { useNavigate } from 'react-router-dom';
-const Details = () => {
-  const navigate = useNavigate();
+  const ServerGroupDetail = () => {
+    const navigate = useNavigate();
   const params = useParams();
   const serverId = params.serverId;
   const [server, setServer] = useState({});
@@ -267,12 +62,14 @@ const Details = () => {
     const servicesData = selectedPorts.map(({ port, serviceName, host }) => ({
       port: parseInt(port),
       serviceName,
-      ip: host, // Add the host as the IP
+      ip: host, 
     }))
+    console.log('Services Data:', servicesData);
     const serverData = {
       groupName,
       services: servicesData,
     };
+    console.log('Services Data:', serverData);
   
     if (serverId) {
       // Update
@@ -303,24 +100,43 @@ const Details = () => {
     setSelectedPorts([]);
   };
 
-  return (
-    <CForm
-      className="row g-3 needs-validation"
-      noValidate
-      validated={validated}
-      onSubmit={handleSubmit}
-    >
-      <CCol md={6}>
-        <CFormLabel htmlFor="validationCustom02">Group Name</CFormLabel>
-        <CFormInput type="text" id="validationCustom02" required value={groupName} onChange={(e) => setGroupName(e.target.value)} />
-        <CFormFeedback valid>Looks good!</CFormFeedback>
-    <CFormFeedback invalid>Please provide a  name.</CFormFeedback>
-  
-      </CCol>
-      <CFormSelect
-  id="validationCustom03"
+    return (
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Paper elevation={10}>
+            <CardHeader title="ServerGroup Details" />
+            <CardContent>
+              <form
+                noValidate
+                onSubmit={handleSubmit}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="groupName"
+                      label="Group Name"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      value={groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      error={validated && !groupName}
+                    />
+                  </Grid>
+                  <Grid item md={12}>
+                    <Paper elevation={10}>
+                      <CardHeader title="Group Services" />
+                      <CardContent>
+                      <FormControl fullWidth>
+  <InputLabel id="ports-label">Select Ports</InputLabel>
+ 
+
+     <Select
+  labelId="ports-label"
+  id="ports"
   multiple
-  defaultValue={selectedPorts.map(({ port }) => port.toString())}
+  label="Select Ports"
+  value={selectedPorts}
   onChange={(e) => {
     const selectedPortIds = Array.from(e.target.selectedOptions, (option) => ({
       port: parseInt(option.value),
@@ -332,66 +148,44 @@ const Details = () => {
 >
   {ports && ports.length > 0 ? (
     ports.map(({ ports, serviceName, host }) => (
-      <option key={ports} value={ports.toString()}>
+      <MenuItem key={ports} value={ports.toString()}>
         {serviceName} - {ports} ({host})
-      </option>
+      </MenuItem>
     ))
   ) : (
-    <option value="">Loading ports...</option>
+    <MenuItem value="">Loading ports...</MenuItem>
   )}
-</CFormSelect>
+</Select>
 
 
+</FormControl>
 
 
-      <CCol xs={12}>
-        <CRow>
-          <CCol xs={4}></CCol>
-          <CCol xs={4}></CCol>
-          <CCol xs={4}>
-            <CRow className="align-items-end">
-              <CCol xs={3}></CCol>
-              <CCol xs={4}>
-                <CRow>
-                  <CButton color="primary" type="submit" className="ms-2">
-                    Submit
-                  </CButton>
-                </CRow>
-              </CCol>
-              <CCol xs={1}></CCol>
-              <CCol xs={3}>
-                <CRow>
-                  <CButton color="secondary" type="button" className="ms-2" onClick={handleClear}>
-                    Clear
-                  </CButton>
-                </CRow>
-              </CCol>
-              <CCol xs={1}></CCol>
-            </CRow>
-          </CCol>
-        </CRow>
-      </CCol>
-    </CForm>
-  );
-};
-function ServerGroupDetail() {
-  return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <h4>Server Group Details</h4>
-          </CCardHeader>
-          <CCardBody>
-            <p className="text-medium-emphasis small">
-              Complete Detail of the Server Group
-            </p>
-            <Details />
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
-  );
-}
+                      </CardContent>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container justifyContent="flex-end">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        style={{ marginRight: 10 }}
+                      >
+                        Submit
+                      </Button>
+                      <Button variant="contained" color="secondary" type="button" onClick={handleClear}>
+                        Clear
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Paper>
+        </Grid>
+      </Grid>
+    );
+  };
 
-export default ServerGroupDetail;
+  export default ServerGroupDetail;

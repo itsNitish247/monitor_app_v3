@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
 import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
-  CRow,
-  CTable,
-  CTableBody,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
-  CTooltip,
-} from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilStorage } from "@coreui/icons";
-import { getServers , getServices } from "../../services/server-service";
-import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Server_Group from "../server-group/Server_Group";
-import Pagination from "../pagination/Pagination";
+  Button,
+  Paper,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Skeleton, 
+  Snackbar,
+  Alert,
+  Card
+} from "@mui/material";
+
+import { getServers , getServices } from "../../api/server-service";
+import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import CustomTablePagination from "../../pagination/pagination";
+import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
+
+
 
 function ServerGroupList() {
-
-  const [server , setServer] = useState([]);
   const [services, setServices] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
 
-  const [noOfRows, setNoOfRows] = useState(4);
-  const [selectedPage, setSelectedPage] = useState(1);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   useEffect(() => {
     fetchServices();
@@ -37,108 +43,176 @@ function ServerGroupList() {
 
 
  
-  const showSuccessToast = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
-
-  const showErrorToast = (message) => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchServices();
   };
-
 
   const fetchServices = () => {
     getServices()
-      .then((response) => {
-        console.log(response);
-        const services = response.data;
-        setServices(services);
+        .then((response) => {
+          console.log("Server Group data:", response.data);
+          setTimeout(() => {
+            setServices(response.data);
+            setLoading(false);
+            if (response.data.length > 0) {
+              showSnackbar("Successfully fetched all Servers Groups.", "success");
+            }
+          }, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+          showSnackbar("Error fetching servers Group: " + error.message, "error");
+        });
+    };
 
-        if(services && services.length>0){
-        showSuccessToast("Successfully fetched all Servers.");
-      } else {
-        console.log("No data found");
-      }
-      })
-      .catch((error) => {
-        console.log(error);
-        showErrorToast(error.message);
-      });
-  };
-
+    const showSnackbar = (message, severity) => {
+      setSnackbarMessage(message);
+      setSnackbarSeverity(severity);
+      setSnackbarOpen(true);
+    };
+  
+    const handleChangePage = (newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (value) => {
+      setRowsPerPage(value);
+      setPage(0);
+    };
+    
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <CRow>
-              <CCol xs={11}>
-                <h4>Server Group List</h4>
-              </CCol>
-             
-            </CRow>
-          </CCardHeader>
-          <CCardBody>
-            <p className="text-medium-emphasis small">List of all server groups</p>
-            {services && services.length === 0 ? (
-              <div>No ServerGroups Added Yet...</div>
-            ) : (
-              <CTable hover>
-                <CTableHead>
-                  <CTableRow>
-                    <CTableHeaderCell scope="col">Sl No.</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Group Name</CTableHeaderCell>
+  
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
+        <Paper elevation={10}>
+        <CardHeader
+            title="Group List"
+            action={
+              <>
+              
+                <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
                   
-                    <CTableHeaderCell scope="col">Services</CTableHeaderCell>
+                >
+                  Refresh
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/server-group-details"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  sx={{ marginLeft: 2 }}
+                >
+                  Add Group
+                  </Button>
+              </>
+            }
+          />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              List of all Groups
+            </Typography>
+            {loading ? ( 
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(rowsPerPage)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              ) : services.length === 0 ? (
+  <Typography variant="body3" className="text-secondary">
+    No Server Groups Added Yet...
+  </Typography>
+            ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Group Name</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Services</TableCell>
 
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {services.map((item, index) => {
-                    let servergroupList;
-
-                    if (
-                      index >= (selectedPage - 1) * noOfRows &&
-                      index < selectedPage * noOfRows
-                    ) {
-                      servergroupList = <Server_Group key={item.id} item={item} />;
-                    }
-
-                    return servergroupList;
-                  })}
-                </CTableBody>
-              </CTable>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {services
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell align="center">{item.id}</TableCell>
+                          <TableCell align="center">  {item.groupName}</TableCell>
+                       
+                          <TableCell align="center">  {Array.isArray(item.services) ? (
+    item.services.map((service, index) => (
+      <div key={index}>
+        {service.port}
+      </div>
+    ))
+  ) : (
+    <div>Invalid ports data</div>
+  )}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             )}
-            <Pagination
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              objects={services }
-              noOfRows={noOfRows}
-              setNoOfRows={setNoOfRows}
+            <CustomTablePagination
+              count={services.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <ToastContainer />
-    </CRow>
-  );
-}
+          </CardContent>
+        </Paper>
+      </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </Grid>
 
+  );
+};
 export default ServerGroupList;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React  , {useState}from 'react';
 import { styled,  } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -14,7 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useAppStore } from '../appStore';
-import { Paper } from '@mui/material';
+
 import { useNavigate } from 'react-router-dom';
 import SpeedIcon from '@mui/icons-material/Speed';
 import ComputerIcon from '@mui/icons-material/Computer';
@@ -23,7 +23,14 @@ import StorageIcon from '@mui/icons-material/Storage';
 import ApiIcon from '@mui/icons-material/Api';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import { useTheme } from '@emotion/react';
+import  {Collapse}  from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 const drawerWidth = 240;
+
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -46,11 +53,13 @@ const closedMixin = (theme) => ({
   },
 });
 
+
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
+ 
   ...theme.mixins.toolbar,
 }));
 
@@ -63,11 +72,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     boxSizing: 'border-box',
     ...(open && {
       ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
+      '& .MuiDrawer-paper': { ...openedMixin(theme), backgroundColor: '#273143' , color:'white' }, 
     }),
     ...(!open && {
       ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
+      '& .MuiDrawer-paper': { ...closedMixin(theme),  backgroundColor: '#273143' , color:'white' }, 
     }),
   }),
 );
@@ -76,20 +85,21 @@ export default function Sidenav() {
   const navigate = useNavigate();
 
   const open = useAppStore((state) =>state.dopen)
- 
+  const [subitemOpen, setSubitemOpen] = useState(false);
 
   return (
-    <Paper elevation={10}>
-      <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }}>
+
       <CssBaseline />
       
       <Drawer variant="permanent" open={open}>
      
         <Divider />
         <DrawerHeader sx={{
-          justifyContent: 'center'
+          justifyContent: 'center',
+          fontSize : '30px'
         }}>
-         MENU
+         Menu
         </DrawerHeader>
         <Divider />
         <List>
@@ -99,6 +109,9 @@ export default function Sidenav() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                '&:hover': {
+      backgroundColor: '#394253',
+    },
                 }}
               >
                 <ListItemIcon
@@ -108,7 +121,7 @@ export default function Sidenav() {
                     justifyContent: 'center',
                   }}
                 >
-                  <SpeedIcon />
+                  <SpeedIcon sx={{ color: 'white' }} />
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -119,41 +132,122 @@ export default function Sidenav() {
        
         
         <List>
-        <ListItem disablePadding sx={{ display: 'block' }} onClick={() =>{navigate("/add-request")}}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <AddBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Add Request" sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-        </List>
+       
+        {open && (
+    <ListItem disablePadding>
+      <ListItemText
+        primary="TOOLS"
+        primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} // Adjust typography as needed
+        sx={{ textAlign: 'left', fontWeight: '200' , marginLeft :2}}
+      />
+    </ListItem>
+  )}
+  <ListItem disablePadding>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%', 
+      }}
+    >
+      <ListItemButton
+        sx={{
+          minHeight: 48,
+          px: 2.5,
+          width: '100%', 
+          '&:hover': {
+            backgroundColor: '#394253',
+          },
+        }}
+        onClick={() => {
+          setSubitemOpen(!subitemOpen); // Toggle subitem state
+        }}
+      >
+        <ListItemIcon>
+          <MonitorHeartIcon sx={{ color: 'white' }} />
+        </ListItemIcon>
+        <ListItemText primary="Monitor" />
+        {/* Conditional rendering of expand/collapse icon */}
+        {open && (subitemOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+      </ListItemButton>
+    </Box>
+  </ListItem>
+</List>
+{/* Subitem dropdown */}
+<Collapse in={open && subitemOpen} timeout="auto" unmountOnExit>
+  <List component="div" disablePadding>
+    <ListItem disablePadding>
+      <ListItemButton
+        sx={{
+          minHeight: 48,
+          justifyContent: 'center',
+          px: 6.5,
+          '&:hover': {
+            backgroundColor: '#394253',
+          },
+        }}
+        onClick={() => { navigate("/add-request") }}
+      >
+        <ListItemIcon sx={{ minWidth: 0, mr: 3, justifyContent: 'center' }}>  
+          <AddBoxIcon  sx={{ color: 'white' }}/>
+        </ListItemIcon>
+        <ListItemText primary="Add-Group" />
+      </ListItemButton>
+    </ListItem>
+  </List>
+</Collapse>
+<Collapse in={open && subitemOpen} timeout="auto" unmountOnExit>
+  <List component="div" disablePadding>
+    <ListItem disablePadding>
+      <ListItemButton
+        sx={{
+          minHeight: 48,
+          justifyContent: 'center',
+          px: 6.5,
+          '&:hover': {
+            backgroundColor: '#394253',
+          },
+        }}
+        onClick={() => { navigate("/add-request") }}
+      >
+        <ListItemIcon sx={{ minWidth: 0, mr: 3, justifyContent: 'center' }}>  
+          <AddBoxIcon  sx={{ color: 'white' }}/>
+        </ListItemIcon>
+        <ListItemText primary="Add-Request" />
+      </ListItemButton>
+    </ListItem>
+  </List>
+</Collapse>
+
 
 <Divider />
 
 
         <List>
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/server-list")}}>
+        {open && (
+    <ListItem disablePadding>
+      <ListItemText
+        primary="SERVICES"
+        primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} // Adjust typography as needed
+        sx={{ textAlign: 'left', fontWeight: '200' , marginLeft :2}}
+      />
+    </ListItem>
+  )}
+
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/server-list-server-group-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  '&:hover': {
+      backgroundColor: '#394253',
+    },
+        
                 }}
               >
-              <ComputerIcon />
+              <ComputerIcon sx={{ color: 'white' }}/>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -176,9 +270,13 @@ export default function Sidenav() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  '&:hover': {
+      backgroundColor: '#394253',
+    },
+        
                 }}
               >
-              <StorageIcon />
+              <StorageIcon sx={{ color: 'white' }}/>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -202,9 +300,13 @@ export default function Sidenav() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  '&:hover': {
+      backgroundColor: '#394253',
+    },
+        
                 }}
               >
-              <ApiIcon />
+              <ApiIcon sx={{ color: 'white' }}/>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -223,12 +325,7 @@ export default function Sidenav() {
 
 
        
-        {/* <DrawerHeader sx={{
-          justifyContent: 'center'
-        }}>
-         SERVICES
-        </DrawerHeader> */}
-
+     
 
         <List>
         <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/user-list")}}>
@@ -237,9 +334,13 @@ export default function Sidenav() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                            '&:hover': {
+      backgroundColor: '#394253',
+    },
+        
                 }}
               >
-              <PersonAddIcon />
+              <PersonAddIcon   sx={{ color: 'white' }} />
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -249,7 +350,7 @@ export default function Sidenav() {
                 >
                 
                 </ListItemIcon>
-                <ListItemText primary="Add Users" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="Users" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
         </List>
@@ -261,9 +362,13 @@ export default function Sidenav() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  '&:hover': {
+      backgroundColor: '#394253',
+    },
+        
                 }}
               >
-              <SummarizeIcon />
+              <SummarizeIcon sx={{ color: 'white' }}/>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -286,7 +391,7 @@ export default function Sidenav() {
         
       
       </Box>
-    </Paper>
+
       
   );
 }

@@ -16,7 +16,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon  , Refresh as RefreshIcon  } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getMonitorRequest } from "../../../api/monitor-service/monitor-request-service";
 import CustomTablePagination from "../../../pagination/pagination";
@@ -71,6 +71,10 @@ function MonitorServerRequest() {
     setPage(0);
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchMonitorRequests();
+  };
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -78,15 +82,28 @@ function MonitorServerRequest() {
           <CardHeader
             title="Monitor Server Request"
             action={
-              <Button
+              <>
+                  <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
+                <Button
                 component={RouterLink}
                 to="/monitor-server-details"
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
+                sx={{ marginLeft: 2 }}
               >
                 Add Request
               </Button>
+              </>
+            
             }
           />
           <CardContent>

@@ -16,7 +16,7 @@ import {
   TableRow,
   Skeleton,
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon , Refresh as RefreshIcon} from "@mui/icons-material";
 
 import { listUsers } from "../../api/user-service";
 import { Link as RouterLink } from "react-router-dom";
@@ -62,6 +62,10 @@ function UserList() {
     setSnackbarOpen(true);
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    listUsers();
+  };
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
@@ -83,15 +87,28 @@ function UserList() {
           <CardHeader
           title="User List"
             action={
-              <Button
+              <>
+                  <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
+                <Button
                 component={RouterLink}
                 to="/user-detail"
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
+              sx={{marginLeft : 2}}
               >
                 Add User
               </Button>
+              </>
+             
             }
           />
       

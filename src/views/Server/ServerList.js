@@ -16,7 +16,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getServers } from "../../api/server-service";
 import CustomTablePagination from "../../pagination/pagination";
@@ -34,6 +34,10 @@ function ServerList() {
     fetchServers();
   }, []);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchServers();
+  };
   const fetchServers = () => {
     getServers()
       .then((response) => {
@@ -79,15 +83,27 @@ function ServerList() {
           <CardHeader
             title="Server List"
             action={
+              <>
+              <Button 
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleRefresh}
+                  
+                >
+                  Refresh
+                </Button>
               <Button
                 component={RouterLink}
                 to="/server-detail"
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
+                sx={{ marginLeft: 2 }}
               >
                 Add Server
               </Button>
+              </>
             }
           />
           <CardContent>
