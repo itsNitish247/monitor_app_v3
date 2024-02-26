@@ -186,6 +186,15 @@ const DatabaseDetail = () => {
             <Grid item xs={6}>
               <TextField
                 fullWidth
+                label="User Name"
+                value={userName}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
                 label="Password"
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -202,6 +211,8 @@ const DatabaseDetail = () => {
                 }}
               />
             </Grid>
+
+          
             <Grid container justifyContent="flex-end" spacing={2} marginTop={'10px'}>
             <Grid item>
               <Button variant="contained" color="primary" type="submit">

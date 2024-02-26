@@ -16,6 +16,8 @@ import GroupList from '../views/Group/GroupList';
 import ServerGroupDetail from '../views/server-group/Server_Group_Details';
 import ApexChart from '../dashboard_items/charts/cpu';
 import UserCard from '../dashboard_items/cards/userCard';
+import PortsDetail from '../views/Ports/PortsDetail';
+import PortList from '../views/Ports/PortsList';
 
 
 
@@ -26,8 +28,12 @@ const routes = [
    
   { path: '/users-activity', element: <UserCard/>, exact: true },
 
-  //for monitor requests
+  //for add request 
   { path: '/add-request', element: <MonitorRequestList/>, exact: true },
+
+  // for add groups
+  { path: '/add-groups', element: <GroupList/>, exact: true },
+
   { path: '/monitor-server-details', element: <ServerMonitorDetails/>, exact: true },
   { path: '/monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },
   { path: '/monitor-webservice-details', element: <WebServiceMonitorDetails/>, exact: true },
@@ -37,6 +43,10 @@ const routes = [
   //for servers
   { path: '/server-list', element: <ServerList/>, exact: true },
   { path: '/server-detail', element: <ServerDetails/>, exact: true },
+
+  // for ports 
+  { path: '/ports-detail', element: <PortsDetail/>, exact: true },
+  { path: '/ports-List', element: <PortList/>, exact: true },
 
   // for servergroup 
   { path: '/server-group-details', element: <ServerGroupDetail/>, exact: true },

@@ -9,6 +9,9 @@ const theme = createTheme({
     success: {
       main: '#28a745', 
     },
+    secondary : {
+      main : '#4a5092'
+    },
     error: {
       main: '#dc3545', 
     },

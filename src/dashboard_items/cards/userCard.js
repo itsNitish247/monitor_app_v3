@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Grid ,Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Avatar, Grid ,Paper,Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Person as PersonIcon } from '@mui/icons-material';
 import { getAllUserLogs } from '../../api/users-log-service';
 
@@ -22,7 +22,7 @@ const UserCard = () => {
   return (
 <Grid container spacing={2}>
     <Grid item xs={12}>
-     
+     <Paper elevation={10}>
     <TableContainer>
         <Table align="middle" className="mb-0 border" hover>
           <TableHead>
@@ -58,6 +58,7 @@ const UserCard = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </Paper>
     </Grid>
 </Grid>  
       

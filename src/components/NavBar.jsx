@@ -216,7 +216,7 @@ export default function NavBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Vis Proctor
+          VIS Proctor
           </Typography>
           <Search>
             <SearchIconWrapper>

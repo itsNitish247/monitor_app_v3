@@ -38,6 +38,7 @@ function ServerList() {
     setLoading(true);
     fetchServers();
   };
+
   const fetchServers = () => {
     getServers()
       .then((response) => {
@@ -48,14 +49,13 @@ function ServerList() {
           if (response.data.length > 0) {
             showSnackbar("Successfully fetched all Servers.", "success");
           }
-        }, 2000);
+        }, 1000);
       })
       .catch((error) => {
         console.log(error);
         showSnackbar("Error fetching servers: " + error.message, "error");
       });
   };
-  
 
   const showSnackbar = (message, severity) => {
     setSnackbarMessage(message);
@@ -84,25 +84,24 @@ function ServerList() {
             title="Server List"
             action={
               <>
-              <Button 
+                <Button 
                   variant="contained"
                   color="secondary"
                   startIcon={<RefreshIcon />}
                   onClick={handleRefresh}
-                  
                 >
                   Refresh
                 </Button>
-              <Button
-                component={RouterLink}
-                to="/server-detail"
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                sx={{ marginLeft: 2 }}
-              >
-                Add Server
-              </Button>
+                <Button
+                  component={RouterLink}
+                  to="/server-detail"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  sx={{ marginLeft: 2 }}
+                >
+                  Add Server
+                </Button>
               </>
             }
           />
@@ -143,10 +142,10 @@ function ServerList() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              ) : servers.length === 0 ? (
-  <Typography variant="body3" className="text-secondary">
-    No Servers Added Yet...
-  </Typography>
+            ) : servers.length === 0 ? (
+              <Typography variant="body3" className="text-secondary">
+                No Servers Added Yet...
+              </Typography>
             ) : (
               <TableContainer>
                 <Table>
@@ -161,7 +160,17 @@ function ServerList() {
                     {servers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((item) => (
-                        <TableRow key={item.id}>
+                        <TableRow 
+                          key={item.id} 
+                       
+                            sx={{
+                            '&:hover': {
+                              border: '2px solid blue', 
+                            
+                            }
+
+                          }}
+                        >
                           <TableCell align="center">{item.id}</TableCell>
                           <TableCell align="center">{item.name}</TableCell>
                           <TableCell align="center">{item.host}</TableCell>

@@ -187,7 +187,7 @@ export default function Sidenav() {
             backgroundColor: '#394253',
           },
         }}
-        onClick={() => { navigate("/add-request") }}
+        onClick={() => { navigate("/add-groups") }}
       >
         <ListItemIcon sx={{ minWidth: 0, mr: 3, justifyContent: 'center' }}>  
           <AddBoxIcon  sx={{ color: 'white' }}/>
@@ -235,7 +235,7 @@ export default function Sidenav() {
     </ListItem>
   )}
 
-        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/server-list-server-group-list")}}>
+        <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/server-list")}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -261,6 +261,33 @@ export default function Sidenav() {
               </ListItemButton>
             </ListItem>
         </List>
+
+        <List>
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={() =>{navigate("/ports-List")}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                '&:hover': {
+      backgroundColor: '#394253',
+    },
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <SpeedIcon sx={{ color: 'white' }} />
+                </ListItemIcon>
+                <ListItemText primary="Add Ports" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+        </List>
+
 
 
         <List>
@@ -328,6 +355,16 @@ export default function Sidenav() {
      
 
         <List>
+
+        {open && (
+    <ListItem disablePadding>
+      <ListItemText
+        primary="USERS"
+        primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} // Adjust typography as needed
+        sx={{ textAlign: 'left', fontWeight: '200' , marginLeft :2}}
+      />
+    </ListItem>
+  )}
         <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/user-list")}}>
               <ListItemButton
                 sx={{
@@ -350,12 +387,21 @@ export default function Sidenav() {
                 >
                 
                 </ListItemIcon>
-                <ListItemText primary="Users" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="add-Users" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
         </List>
 
         <List>
+        {open && (
+    <ListItem disablePadding>
+      <ListItemText
+        primary="REPORTS"
+        primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} // Adjust typography as needed
+        sx={{ textAlign: 'left', fontWeight: '200' , marginLeft :2}}
+      />
+    </ListItem>
+  )}
         <ListItem  disablePadding sx={{ display: 'block' }} onClick={()=> {navigate("/users-list")}}>
               <ListItemButton
                 sx={{

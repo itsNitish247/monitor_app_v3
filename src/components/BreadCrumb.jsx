@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import { useLocation } from 'react-router-dom';
-import { Paper } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Snackbar } from '@mui/material';
 
 function handleClick(event) {
   event.preventDefault();
@@ -12,12 +12,25 @@ function handleClick(event) {
 export default function ActiveLastBreadcrumb() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
+  const navigate = useNavigate();
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleHomeClick = () => {
+    if (location.pathname !== '/dashboard') {
+      navigate("/dashboard");
+    } else {
+      setShowSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
 
   return (
-   
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/Login">
+        <Link underline="hover" color="inherit" onClick={handleHomeClick}>
           Home
         </Link>
         {pathnames.map((name, index) => {
@@ -44,7 +57,14 @@ export default function ActiveLastBreadcrumb() {
           );
         })}
       </Breadcrumbs>
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={1000}
+        onClose={handleCloseSnackbar}
+        message="You are already on the dashboard !"
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    
+      />
     </div>
-
   );
 }
