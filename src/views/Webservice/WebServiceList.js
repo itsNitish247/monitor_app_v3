@@ -177,7 +177,8 @@ const WebServiceList = () => {
                         <TableRow key={item.id}>
                           <TableCell align="center">{item.id}</TableCell>
                           <TableCell align="center">{item.name}</TableCell>
-                          <TableCell align="center">{item.host}</TableCell>
+                          <TableCell align="center">{item.url}</TableCell>
+                          <TableCell align="center">{item.httpMethod}</TableCell>
                         </TableRow>
                       ))}
                   </TableBody>

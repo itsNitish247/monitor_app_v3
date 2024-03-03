@@ -67,7 +67,7 @@ const [snackbarMessage, setSnackbarMessage] = useState("");
           setValidated(true);
           setSnackbarOpen(true); 
           setSnackbarMessage("Successfully logged in");
-          navigate('/MainLayout')
+          navigate('/dashboard')
         }
       })
       .catch((error) => {

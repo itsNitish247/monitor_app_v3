@@ -43,28 +43,33 @@ function Cards() {
             </CardContent>
             <CardContent>
               <Typography variant="h5" align="right">Problems</Typography>
-              <Typography variant="h4" align="right">123</Typography>
+              <Typography variant="h4" align="right">0</Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Link to="/alerts" style={{ textDecoration: 'none'}}>
           <Card elevation={5} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <CardContent>
-              <Link to="/alerts">
+            
+          
                 <IconButton>
                   <WarningIcon sx={{ fontSize: 60 }} />
                 </IconButton>
-              </Link>
+            
             </CardContent>
+         
             <CardContent>
               <Typography variant="h5" align="right">Alerts</Typography>
-              <Typography variant="h4" align="right">123</Typography>
+              <Typography variant="h4" align="right">0</Typography>
             </CardContent>
+        
           </Card>
+          </Link>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
 
-        <Link to="/users-activity">
+        <Link to="/users-activity" style={{ textDecoration: 'none'}}>
           <Card elevation={5} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <CardContent>
            
@@ -75,7 +80,7 @@ function Cards() {
             </CardContent>
             <CardContent>
               <Typography variant="h5" align="right">Users</Typography>
-              <Typography variant="h4" align="right">123</Typography>
+              <Typography variant="h4" align="right">0</Typography>
             </CardContent>
           </Card>
           </Link>

@@ -14,12 +14,15 @@ import {
   TableRow,
   Skeleton,
   Snackbar,
-  Alert
+  Alert,
+  Tooltip
 } from "@mui/material";
 import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import { getServers } from "../../api/server-service";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CustomTablePagination from "../../pagination/pagination";
+import { motion } from 'framer-motion';
 
 function ServerList() {
   const [servers, setServers] = useState([]);
@@ -29,6 +32,8 @@ function ServerList() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [shake, setShake] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     fetchServers();
@@ -76,35 +81,68 @@ function ServerList() {
     setPage(0);
   };
 
+
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShake(true);
+      setTimeout(() => {
+        setShake(false);
+      }, 500); 
+    }, 3000); 
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <Paper elevation={10}>
-          <CardHeader
-            title="Server List"
-            action={
-              <>
-                <Button 
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<RefreshIcon />}
-                  onClick={handleRefresh}
-                >
-                  Refresh
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/server-detail"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                  sx={{ marginLeft: 2 }}
-                >
-                  Add Server
-                </Button>
-              </>
-            }
-          />
+        <CardHeader
+  title="Server List"
+  action={
+    <>
+<motion.div
+      animate={{ x: shake ? [-5, 5, -5, 5, 0] : 0 }}
+      transition={{ duration: 0.5 }} 
+      style={{ display: 'inline-block' }}
+    >
+      <Tooltip title="You can view list of servers added here" placement="bottom">
+      <Button 
+          onMouseEnter={() => setShake(true)}
+          onMouseLeave={() => setShake(false)}
+          sx={{ '&:hover': { backgroundColor: 'transparent' } }}
+        >
+          <InfoOutlinedIcon style={{ fontSize: "30px" }} />
+        </Button>
+      </Tooltip>
+    </motion.div>
+
+      <Button 
+        variant="contained"
+        color="secondary"
+        startIcon={<RefreshIcon />}
+        onClick={handleRefresh}
+  
+      >
+        Refresh
+      </Button>
+
+      <Button
+        component={RouterLink}
+        to="/server-detail"
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        sx={{ marginLeft: 2 }}
+      >
+        Add Server
+      </Button>
+    </>
+  }
+/>
+
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               List of all servers

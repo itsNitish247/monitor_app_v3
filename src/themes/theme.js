@@ -9,19 +9,26 @@ const theme = createTheme({
     success: {
       main: '#28a745', 
     },
-    secondary : {
+    secondary : { 
       main : '#4a5092'
     },
     error: {
       main: '#dc3545', 
     },
-    sidebar: {
-      main: '#dc3545'
+    // sidebar: {
+    //   main: '#dc3545'
+    // },
+    warning : {
+main:'#F9E076'
+    },
+
+    background: {  
+      default: '#f3f4f7', 
     },
   },
   typography: {
     fontFamily: 'Open Sans, sans-serif', 
-    fontWeightBold:700,// Set the default font family
+    fontWeightBold:700,
   },
   overrides: {
     MuiCssBaseline: {
@@ -32,6 +39,9 @@ const theme = createTheme({
       },
     },
   },
+ 
+
 });
+
 
 export default theme;

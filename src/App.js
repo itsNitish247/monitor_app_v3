@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-// Import the Servers component
+
 import DefaultLayout from './components/DefaultLayout';
 import routes from './routes/routes';
 
@@ -11,7 +11,8 @@ const App = () => {
     <HashRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route exact path="/Login" element={<Login />} />
+          <Route exact path="/" element={<Login />} />
+
           <Route exact path="/" element={<DefaultLayout />} /> 
           <Route
             path="/*"
@@ -37,3 +38,4 @@ const App = () => {
 };
 
 export default App;
+ 

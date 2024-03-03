@@ -18,6 +18,10 @@ import ApexChart from '../dashboard_items/charts/cpu';
 import UserCard from '../dashboard_items/cards/userCard';
 import PortsDetail from '../views/Ports/PortsDetail';
 import PortList from '../views/Ports/PortsList';
+import GroupDetails from '../views/Group/GroupDetail';
+import Alerts from '../dashboard_items/cards/alerts';
+import GroupRequestDetail from '../views/GroupRequest/Group_Request_Detail';
+import Problems from '../dashboard_items/cards/problems';
 
 
 
@@ -27,12 +31,19 @@ const routes = [
   // Cards
    
   { path: '/users-activity', element: <UserCard/>, exact: true },
+  { path: '/alerts', element: <Alerts />, exact: true },
+  { path: '/problems', element: <Problems />, exact: true },
+
 
   //for add request 
   { path: '/add-request', element: <MonitorRequestList/>, exact: true },
 
   // for add groups
   { path: '/add-groups', element: <GroupList/>, exact: true },
+  { path: '/groups-detail', element: <GroupDetails/>, exact: true },
+
+  //for add monitor group
+  { path : '/add-monitor-group' , element:<GroupRequestDetail /> , exact:true},
 
   { path: '/monitor-server-details', element: <ServerMonitorDetails/>, exact: true },
   { path: '/monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },

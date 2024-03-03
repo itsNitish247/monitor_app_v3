@@ -34,20 +34,6 @@ const AppBar = styled(MuiAppBar, {
 
 
 
-// const BreadcrumbsWrapper = styled(Box, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   zIndex: theme.zIndex.drawer + 1,
-//   position: 'fixed',
-//   top: 70, 
-//   left: open ? 240 : 0,
-//   width: open ? `calc(100% - 200px)` : '100%', 
-//   backgroundColor: theme.palette.common.white,
-//   transition: theme.transitions.create(['width', 'left'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }), 
-// }));
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,

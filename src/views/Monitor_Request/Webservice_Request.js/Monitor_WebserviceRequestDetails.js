@@ -159,7 +159,9 @@ const WebServiceMonitorDetails = () => {
       onSubmit={handleSubmit}
     >
      <Paper elevation = {10} style={{ padding: "20px", width: "100%" }}>
-      <CardHeader>Server Request </CardHeader>
+      <CardHeader
+       title="Webservice Request"
+        />
       <Grid container spacing={3}>
         <Grid item md={12}>
           <TextField

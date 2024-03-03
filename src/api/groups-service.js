@@ -3,7 +3,7 @@ import axios from 'axios'
 const BASE_REST_API_URL = 'http://localhost:9090/api/';
 
 export const getGroups = ()=> {
-    return axios.get(BASE_REST_API_URL+'get-groups')
+    return axios.get(BASE_REST_API_URL+'get-all-groups')
 }
 
 

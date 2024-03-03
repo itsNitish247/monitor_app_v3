@@ -79,7 +79,7 @@ const DatabaseDetail = () => {
       // Update
       updateDatabaseRequest(dbId, databaseData) 
         .then(() => {
-          navigate("/databases-list"); 
+          navigate("/database-list"); 
         })
         .catch((err) => {
           console.log(err);
@@ -88,7 +88,7 @@ const DatabaseDetail = () => {
       // Create
       addDatabaseRequest(databaseData) 
         .then(() => {
-          navigate("/databases-list"); 
+          navigate("/database-list"); 
         })
         .catch((err) => {
           console.log(err);
@@ -182,13 +182,13 @@ const DatabaseDetail = () => {
                 onChange={(e) => setUrl(e.target.value)}
                 required
               />
-            </Grid>
+            </Grid> 
             <Grid item xs={6}>
-              <TextField
+              <TextField  
                 fullWidth
                 label="User Name"
                 value={userName}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setUserName(e.target.value)}
                 required
               />
             </Grid>
