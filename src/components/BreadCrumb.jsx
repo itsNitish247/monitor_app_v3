@@ -18,7 +18,7 @@ export default function ActiveLastBreadcrumb() {
 
   const handleHomeClick = () => {
     if (location.pathname !== '/dashboard') {
-      navigate("/dashboard");
+      navigate("/Dashboard");
     } else {
       setShowSnackbar(true);
     }
@@ -67,9 +67,9 @@ export default function ActiveLastBreadcrumb() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center' }}
           color="inherit"
-          href="/"
+          onClick = {handleHomeClick}
         >
-          <HomeIcon sx={{ mr: 0.5 , color :'#5e35b1'}} fontSize="inherit" />
+          <HomeIcon sx={{ mr: 0.5 , color :'#5e35b1' }} fontSize="inherit"  />
           Home
         </Link>
                   {pathnames.map((name, index) => {
