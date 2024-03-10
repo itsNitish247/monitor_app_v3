@@ -127,13 +127,13 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Card, CardHeader, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Button } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { getDatabaseRequest } from '../api/database-service';
-import { SnackbarProvider, useSnackbar } from 'notistack'; // Importing from notistack
-
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useTheme } from '@mui/material/styles';
 function DatabaseStatus() {
-  const { enqueueSnackbar } = useSnackbar(); // Destructuring enqueueSnackbar from useSnackbar
+  const { enqueueSnackbar } = useSnackbar(); 
   const [loading, setLoading] = useState(true);
   const [databaseData, setDatabaseData] = useState([]);
-
+  const theme = useTheme();
   useEffect(() => {
     fetchDatabases();
   }, []);
@@ -157,7 +157,7 @@ function DatabaseStatus() {
   };
 
   const handleSnackbar = (message, severity) => {
-    enqueueSnackbar(message, { variant: severity }); // Using enqueueSnackbar from notistack
+    enqueueSnackbar(message, { variant: severity }); 
   };
 
   const handleRefresh = () => {
@@ -202,10 +202,13 @@ function DatabaseStatus() {
                     <TableCell>
                       <Button
                         variant="contained"
-                        color={database.isActive ? 'success' : 'error'}
+                        style={{
+                          backgroundColor: database.isActive ? theme.palette.success.main : theme.palette.error.main,
+                          color: 'white',
+                        }}
                         disabled={!database.isActive}
                       >
-                        {database.isActive ? 'Active' : 'InActive'}
+                        {database.isActive ? "Active" : "InActive"}
                       </Button>
                     </TableCell>
                     <TableCell>
@@ -229,7 +232,7 @@ function DatabaseStatus() {
 
 export default function IntegrationNotistack() {
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
       <DatabaseStatus />
     </SnackbarProvider>
   );

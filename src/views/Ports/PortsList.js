@@ -20,6 +20,8 @@
     import { Link as RouterLink } from "react-router-dom";
     import { getPorts } from "../../api/ports_service";
     import CustomTablePagination from "../../pagination/pagination";
+    import DeleteIcon from '@mui/icons-material/Delete';
+import { useAppStore } from "../../appStore";
 
     function PortList() {
     const [ports, setPorts] = useState([]);
@@ -29,7 +31,7 @@
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
+    const userType = useAppStore(state => state.userType);
     useEffect(() => {
         fetchServers();
     }, []);
@@ -76,6 +78,11 @@
         setPage(0);
     };
 
+  
+const handleDelete = (id) =>{
+    setPorts(ports.filter(port => port.id !== id));
+  }
+  
     return (
         <Grid container spacing={1}>
         <Grid item xs={12}>
@@ -92,6 +99,8 @@
                     >
                     Refresh
                     </Button>
+
+                    {userType !== 'USER' && userType !== 'SUPERWISER' && (
                     <Button
                     component={RouterLink}
                     to="/ports-detail"
@@ -102,6 +111,7 @@
                     >
                     Add Ports
                     </Button>
+                    )}
                 </>
                 }
             />
@@ -154,6 +164,7 @@
                         <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
                         <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host</TableCell>
                         <TableCell align="center" sx={{ fontWeight: 'bold' }}>Ports</TableCell>
+                        <TableCell align="center" sx={{ fontWeight: 'bold' }}></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -185,6 +196,11 @@
     <div>Invalid ports data</div>
   )}
 </TableCell>
+ {userType !== 'USER' && userType !== 'SUPERWISER' && (
+                            <TableCell align="center">
+                              <DeleteIcon onClick={() => handleDelete(item.id)}/>
+                            </TableCell>
+                          )}
 
                             </TableRow>
                         ))}

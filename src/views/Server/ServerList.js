@@ -23,7 +23,8 @@ import { getServers } from "../../api/server-service";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CustomTablePagination from "../../pagination/pagination";
 import { motion } from 'framer-motion';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useAppStore } from "../../appStore";
 function ServerList() {
   const [servers, setServers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,9 @@ function ServerList() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [shake, setShake] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [serverCount, setServerCount] = useState(0);
+
+  const userType = useAppStore(state => state.userType);
 
   useEffect(() => {
     fetchServers();
@@ -51,6 +55,7 @@ function ServerList() {
         setTimeout(() => {
           setServers(response.data);
           setLoading(false);
+          setServerCount(response.data.length);
           if (response.data.length > 0) {
             showSnackbar("Successfully fetched all Servers.", "success");
           }
@@ -81,7 +86,9 @@ function ServerList() {
     setPage(0);
   };
 
-
+const handleDelete = (id) =>{
+  setServers(servers.filter(server => server.id !== id));
+}
 
 
   useEffect(() => {
@@ -129,7 +136,7 @@ function ServerList() {
         Refresh
       </Button>
 
-      <Button
+      {/* <Button
         component={RouterLink}
         to="/server-detail"
         variant="contained"
@@ -138,7 +145,19 @@ function ServerList() {
         sx={{ marginLeft: 2 }}
       >
         Add Server
-      </Button>
+      </Button> */}
+      {userType !== 'USER' && userType !== 'SUPERWISER' && (
+                  <Button
+                    component={RouterLink}
+                    to="/server-detail"
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                    sx={{ marginLeft: 2 }}
+                  >
+                    Add Server
+                  </Button>
+                )}
     </>
   }
 />
@@ -192,6 +211,8 @@ function ServerList() {
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host</TableCell>
+                      {userType !== 'USER' && userType !== 'SUPERWISER' && (
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>)}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -212,6 +233,11 @@ function ServerList() {
                           <TableCell align="center">{item.id}</TableCell>
                           <TableCell align="center">{item.name}</TableCell>
                           <TableCell align="center">{item.host}</TableCell>
+                          {userType !== 'USER' && userType !== 'SUPERWISER' && (
+                            <TableCell align="center">
+                              <DeleteIcon onClick={() => handleDelete(item.id)} />
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))}
                   </TableBody>

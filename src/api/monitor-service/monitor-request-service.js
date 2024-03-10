@@ -14,7 +14,7 @@ export const deleteMonitorRequest = (mrId) => {
     return axios.delete(BASE_REST_API_URL + 'delete-monitor-request/' + mrId);
 }
 
-export const updateMonitorRequest=(mrId, request)=>{
+export const updateMonitorRequest=(request)=>{
     return axios.put(BASE_REST_API_URL + 'update-monitor-request', request)
 }
 

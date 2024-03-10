@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { getGroups } from '../../api/groups-service';
 import { addMonitorRequest } from '../../api/monitor-service/monitor-request-service';
+import { useNavigate } from 'react-router-dom';
 
 function GroupRequestDetail() {
   const [groups, setGroups] = useState([]);
@@ -20,7 +21,7 @@ function GroupRequestDetail() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchGroups();
   }, []);
@@ -70,6 +71,7 @@ function GroupRequestDetail() {
         .then(() => {
           showSnackbar('Group added to monitor request.', 'success');
           setSelectedGroupId('');
+          navigate("/add-request");
         })
         .catch((error) => {
           console.error('Error adding group to monitor request:', error);

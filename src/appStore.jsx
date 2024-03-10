@@ -3,7 +3,9 @@ import {persist} from 'zustand/middleware'
 
 let appStore = (set) => ({
     dopen: true,
+    userType: null,
     updateOpen:(dopen) => set((state)=>({dopen:dopen})),
+    updateUserType: (userType) => set((state) => ({ userType: userType }))
 
 });
 

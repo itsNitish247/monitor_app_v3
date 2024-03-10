@@ -23,7 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import CustomTablePagination from "../../pagination/pagination";
 import { Add as AddIcon , Refresh as RefreshIcon } from "@mui/icons-material";
-
+import { useAppStore } from "../../appStore";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function ServerGroupList() {
@@ -32,6 +33,7 @@ function ServerGroupList() {
   const [loading, setLoading] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+  const userType = useAppStore(state => state.userType);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -103,6 +105,7 @@ function ServerGroupList() {
                 >
                   Refresh
                 </Button>
+                {userType !== 'USER' && userType !== 'SUPERWISER' && (
                 <Button
                   component={RouterLink}
                   to="/server-group-details"
@@ -113,6 +116,7 @@ function ServerGroupList() {
                 >
                   Add Group
                   </Button>
+                )}
               </>
             }
           />
@@ -165,6 +169,7 @@ function ServerGroupList() {
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Sl No.</TableCell>
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Group Name</TableCell>
                       <TableCell align="center" sx={{ fontWeight: 'bold' }}>Services</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}></TableCell>
 
                     </TableRow>
                   </TableHead>
@@ -185,6 +190,11 @@ function ServerGroupList() {
   ) : (
     <div>Invalid ports data</div>
   )}</TableCell>
+  {userType !== 'USER' && userType !== 'SUPERWISER' && (
+                            <TableCell align="center">
+                              <DeleteIcon />
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))}
                   </TableBody>

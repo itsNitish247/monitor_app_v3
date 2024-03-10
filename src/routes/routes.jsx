@@ -22,6 +22,7 @@ import GroupDetails from '../views/Group/GroupDetail';
 import Alerts from '../dashboard_items/cards/alerts';
 import GroupRequestDetail from '../views/GroupRequest/Group_Request_Detail';
 import Problems from '../dashboard_items/cards/problems';
+import EmailCard from '../dashboard_items/cards/emailCard';
 
 
 
@@ -29,10 +30,10 @@ const routes = [
   { path: '/dashboard', element: <Dashboard/>, exact: true },
 
   // Cards
-   
-  { path: '/users-activity', element: <UserCard/>, exact: true },
+    { path: '/users-activity', element: <UserCard/>, exact: true },
   { path: '/alerts', element: <Alerts />, exact: true },
   { path: '/problems', element: <Problems />, exact: true },
+  { path: '/email', element: <EmailCard />, exact: true },
 
 
   //for add request 

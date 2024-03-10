@@ -11,11 +11,11 @@ function DefaultLayout({children}) {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Sidenav />
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-        <NavBar />
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "88px" }}>
+        <NavBar /> 
+        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' , marginTop :'45px'}}>
           <ActiveLastBreadcrumb /> 
         </Box>
-        <Box sx={{ flexGrow: 1, padding: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
      {children}
         </Box>
       </Box>

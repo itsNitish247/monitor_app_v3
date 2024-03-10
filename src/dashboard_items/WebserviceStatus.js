@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardHeader, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Button, Snackbar, Alert, Skeleton } from '@mui/material';
+import { Grid, Card, CardHeader, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Button, Snackbar, Alert, Skeleton, useTheme } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { listWSRequests } from '../api/ws-request-service';
 
@@ -13,16 +13,16 @@ function WebServiceStatus() {
   useEffect(() => {
     fetchWebService();
   }, []);
-
+  const theme = useTheme();
   const fetchWebService = () => {
     listWSRequests()
-      .then((data) => {
-        console.log("Web service data:", data);
+      .then((response) => {
+        console.log("Web service data:", response.data);
         setTimeout(() => {
-          // Assuming `data.requests` is the array of web service data
-          setWebServiceData(data.requests || []);
+        
+          setWebServiceData(response.data);
           setLoading(false);
-          if (data.requests && data.requests.length > 0) {
+          if (response.data > 0) {
             showSnackbar("Successfully fetched Web Service Status.", "success");
           }
         }, 2000);
@@ -89,13 +89,16 @@ function WebServiceStatus() {
                       <TableCell>{webService.url}</TableCell>
                       <TableCell>{webService.httpMethod}</TableCell>
                       <TableCell>
-                        <Button
-                          variant="contained"
-                          color={webService.isActive ? 'success' : 'error'}
-                          disabled={!webService.isActive}
-                        >
-                          {webService.isActive ? 'Active' : 'Not Active'}
-                        </Button>
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: webService.isActive ? theme.palette.success.main : theme.palette.error.main,
+                          color: 'white',
+                        }}
+                        disabled={!webService.isActive}
+                      >
+                        {webService.isActive ? "Active" : "InActive"}
+                      </Button>
                       </TableCell>
                       <TableCell>
                         {/* <Button

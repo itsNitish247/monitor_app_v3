@@ -8,6 +8,9 @@ import ServerStatus from './ServerStatus';
 import ServerGroupStatus from './ServerGroupStatus';
 import DatabaseStatus from './DatabaseStatus';
 import WebServiceStatus from './WebserviceStatus';
+import GroupStatus from './GroupStatus';
+
+import Items from './Items/Items';
 
 
 export default function Dashboard() {
@@ -16,7 +19,15 @@ export default function Dashboard() {
       <Grid item xs={12}>
        <Cards />
       </Grid>
-      <Grid item xs={12} style={{ marginBottom: '16px' }}>
+      <Grid item xs={12} style={{ marginBottom: '10px' }}></Grid>
+
+<Items />
+
+     <Grid item xs={12} style={{ marginBottom: '16px' }}></Grid>
+     <GroupStatus />
+
+
+        <Grid item xs={12} style={{ marginBottom: '16px' }}>  
      </Grid>
       <ServerStatus />
       <Grid item xs={12} style={{ marginBottom: '16px' }}>
