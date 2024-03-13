@@ -216,6 +216,11 @@ const DatabaseDetail = () => {
             <Grid container justifyContent="flex-end" spacing={2} marginTop={'10px'}>
             <Grid item>
               <Button variant="contained" color="primary" type="submit">
+                Test Connection
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" type="submit">
                 Submit
               </Button>
             </Grid>

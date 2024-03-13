@@ -12,7 +12,7 @@ function DefaultLayout({children}) {
       <Sidenav />
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         <NavBar /> 
-        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' , marginTop :'45px'}}>
+        <Box sx={{ flexGrow: 1, padding: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' , marginTop :'55px'}}>
           <ActiveLastBreadcrumb /> 
         </Box>
         <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -25,6 +25,7 @@ import CustomTablePagination from "../../pagination/pagination";
 import { motion } from 'framer-motion';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppStore } from "../../appStore";
+
 function ServerList() {
   const [servers, setServers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,8 +35,9 @@ function ServerList() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [shake, setShake] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [serverCount, setServerCount] = useState(0);
+
+
+
 
   const userType = useAppStore(state => state.userType);
 
@@ -55,7 +57,7 @@ function ServerList() {
         setTimeout(() => {
           setServers(response.data);
           setLoading(false);
-          setServerCount(response.data.length);
+
           if (response.data.length > 0) {
             showSnackbar("Successfully fetched all Servers.", "success");
           }
@@ -149,7 +151,7 @@ const handleDelete = (id) =>{
       {userType !== 'USER' && userType !== 'SUPERWISER' && (
                   <Button
                     component={RouterLink}
-                    to="/server-detail"
+                    to="/Server-detail"
                     variant="contained"
                     color="primary"
                     startIcon={<AddIcon />}
@@ -264,6 +266,7 @@ const handleDelete = (id) =>{
           {snackbarMessage}
         </Alert>
       </Snackbar>
+  
     </Grid>
   );
 }

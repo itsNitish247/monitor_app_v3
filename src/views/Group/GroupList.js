@@ -317,7 +317,7 @@ function GroupsList() {
                 {userType !== 'USER' && userType !== 'SUPERWISER' && (
                 <Button
                   component={RouterLink}
-                  to="/groups-detail"
+                  to="/Groups-detail"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

@@ -1,86 +1,55 @@
-import React from 'react';
-import ApexCharts from 'apexcharts';
-import { getCPUInfo } from '../../api/task-manager-service';
+import { Card, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import ReactApexChart from 'react-apexcharts';
 
-class ApexChart extends React.Component {
-  constructor(props) {
-    super(props);
+function App() {
+  const [cpuData, setCpuData] = useState([]);
 
-    this.chartRef = React.createRef();
-    this.chart = null;
+  useEffect(() => {
+    // Generate dummy data when component mounts
+    generateDummyData();
+  }, []);
 
-    this.state = {
-      series: [],
-      options: {
-        chart: {
-          id: 'basic-line',
-          height: 350,
-          type: 'line',
-        },
-        xaxis: {
-          categories: [], // Categories for x-axis (e.g., timestamps)
-        },
-      },
-    };
-  }
+  const generateDummyData = () => {
+    const dummyData = [];
+    const currentTime = new Date().getTime();
+    for (let i = 0; i < 10; i++) {
+      const timestamp = currentTime - i * 60000; // Generating timestamps 60 seconds apart
+      const cpuUsage = Math.floor(Math.random() * 101); // Random CPU usage between 0 and 100
+      dummyData.push({ x: timestamp, y: cpuUsage });
+    }
+    setCpuData(dummyData);
+  };
 
-  componentDidMount() {
-    this.chart = new ApexCharts(this.chartRef.current, this.state.options);
-    this.chart.render();
+  const options = {
+    chart: {
+      type: 'line',
+      height: 350
+    },
+    series: [{
+      name: 'CPU Usage',
+      data: cpuData
+    }],
+    xaxis: {
+      type: 'datetime'
+    },
+    yaxis: {
+      max: 100,
+      title: {
+        text: 'CPU Usage (%)'
+      }
+    }
+  };
 
-    // Fetch CPU data and update the chart
-    this.updateDataInterval = setInterval(this.fetchCpuData, 1000);
-  }
+  return (
 
-  componentWillUnmount() {
-    clearInterval(this.updateDataInterval);
-  }
-
-  fetchCpuData = () => {
-    getCPUInfo()
-      .then(response => response.json())
-      .then(data => {
-        // Extract timestamps and CPU usage values from data
-        const timestamps = [];
-        const cpuUsageData = [];
-
-        data.forEach(item => {
-          if (item && typeof item === 'object' && item.timestamp && item.cpuUsage) {
-            timestamps.push(item.timestamp);
-            cpuUsageData.push(item.cpuUsage);
-          }
-        });
-
-        // Update state with new series data and x-axis categories
-        this.setState({
-          series: [{
-            name: 'CPU Usage',
-            data: cpuUsageData,
-          }],
-          options: {
-            ...this.state.options,
-            xaxis: {
-              ...this.state.options.xaxis,
-              categories: timestamps,
-            },
-          },
-        });
-
-        // Update the chart with new data
-        this.chart.updateSeries(this.state.series);
-        this.chart.updateOptions(this.state.options);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }
-
-  render() {
-    return (
-      <div>
-        <div ref={this.chartRef}></div>
-        <div id="html-dist"></div>
-      </div>
-    );
-  }
+   <Grid item xs={12}>
+   <Card>
+      <ReactApexChart options={options} series={options.series} type="line" height={350} />
+      </Card>
+</Grid>
+  
+  );
 }
 
-export default ApexChart;
+export default App;

@@ -23,60 +23,61 @@ import Alerts from '../dashboard_items/cards/alerts';
 import GroupRequestDetail from '../views/GroupRequest/Group_Request_Detail';
 import Problems from '../dashboard_items/cards/problems';
 import EmailCard from '../dashboard_items/cards/emailCard';
+import Graph from '../dashboard_items/charts/Graph';
 
 
 
 const routes = [
-  { path: '/dashboard', element: <Dashboard/>, exact: true },
+  { path: '/Dashboard', element: <Dashboard/>, exact: true },
 
   // Cards
-    { path: '/users-activity', element: <UserCard/>, exact: true },
-  { path: '/alerts', element: <Alerts />, exact: true },
-  { path: '/problems', element: <Problems />, exact: true },
-  { path: '/email', element: <EmailCard />, exact: true },
+    { path: '/Users-activity', element: <UserCard/>, exact: true },
+  { path: '/Alerts', element: <Alerts />, exact: true },
+  { path: '/Problems', element: <Problems />, exact: true },
+  { path: '/Email', element: <EmailCard />, exact: true },
 
 
   //for add request 
-  { path: '/add-request', element: <MonitorRequestList/>, exact: true },
+  { path: '/Add-request', element: <MonitorRequestList/>, exact: true },
 
   // for add groups
-  { path: '/add-groups', element: <GroupList/>, exact: true },
-  { path: '/groups-detail', element: <GroupDetails/>, exact: true },
+  { path: '/Add-groups', element: <GroupList/>, exact: true },
+  { path: '/Groups-detail', element: <GroupDetails/>, exact: true },
 
   //for add monitor group
-  { path : '/add-monitor-group' , element:<GroupRequestDetail /> , exact:true},
+  { path : '/Add-monitor-group' , element:<GroupRequestDetail /> , exact:true},
 
-  { path: '/monitor-server-details', element: <ServerMonitorDetails/>, exact: true },
-  { path: '/monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },
-  { path: '/monitor-webservice-details', element: <WebServiceMonitorDetails/>, exact: true },
+  { path: '/Monitor-server-details', element: <ServerMonitorDetails/>, exact: true },
+  { path: '/Monitor-database-details', element: <DatabaseMonitorDetails/>, exact: true },
+  { path: '/Monitor-webservice-details', element: <WebServiceMonitorDetails/>, exact: true },
 
  //graphs
- { path: '/metrics', element: <ApexChart/>, exact: true },
+ { path: '/Metrics', element: <Graph/>, exact: true },
   //for servers
-  { path: '/server-list', element: <ServerList/>, exact: true },
-  { path: '/server-detail', element: <ServerDetails/>, exact: true },
+  { path: '/Server-list', element: <ServerList/>, exact: true },
+  { path: '/Server-detail', element: <ServerDetails/>, exact: true },
 
   // for ports 
-  { path: '/ports-detail', element: <PortsDetail/>, exact: true },
-  { path: '/ports-List', element: <PortList/>, exact: true },
+  { path: '/Ports-detail', element: <PortsDetail/>, exact: true },
+  { path: '/Ports-List', element: <PortList/>, exact: true },
 
   // for servergroup 
-  { path: '/server-group-details', element: <ServerGroupDetail/>, exact: true },
+  { path: '/Server-group-details', element: <ServerGroupDetail/>, exact: true },
 
 //for database
-  { path: '/database-detail', element: <DatabaseDetail/>, exact: true },
-  { path: '/database-list', element: <DatabaseList/>, exact: true },
+  { path: '/Database-detail', element: <DatabaseDetail/>, exact: true },
+  { path: '/Database-list', element: <DatabaseList/>, exact: true },
 
   //for webservice
-  { path: '/webservice-detail', element: <WebServiceDetail/>, exact: true },
-  { path: '/webservice-list', element: <WebServiceList/>, exact: true },
+  { path: '/Webservice-detail', element: <WebServiceDetail/>, exact: true },
+  { path: '/Webservice-list', element: <WebServiceList/>, exact: true },
 
 
   //for uses
-  { path: '/user-detail', element: <UserDetail/>, exact: true },
-  { path: '/user-list', element: <UserList/>, exact: true },
+  { path: '/User-detail', element: <UserDetail/>, exact: true },
+  { path: '/User-list', element: <UserList/>, exact: true },
 
  
 ];
-
+  
 export default routes;

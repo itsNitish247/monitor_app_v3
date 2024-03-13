@@ -327,7 +327,7 @@ function UserList() {
                 {userType !== 'USER' && userType !== 'SUPERWISER' && (
                 <Button
                   component={RouterLink}
-                  to="/user-detail"
+                  to="/User-detail"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

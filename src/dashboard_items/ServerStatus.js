@@ -6,8 +6,10 @@ import { Refresh as RefreshIcon, ZoomIn as ZoomInIcon } from '@mui/icons-materia
 import { getServers } from "../api/server-service";
 import { useTheme } from '@mui/material/styles';
 import { SnackbarProvider, useSnackbar } from 'notistack'; 
+import { useNavigate } from 'react-router-dom';
 
 function ServerStatus() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar(); 
   const [loading, setLoading] = useState(true);
@@ -45,7 +47,7 @@ function ServerStatus() {
   };
 
   const handleZoomInClick = () => {
-    console.log('Zoom in clicked');
+ navigate("/Metrics")
   };
 
   return (
@@ -71,7 +73,10 @@ function ServerStatus() {
                 <TableCell>Server Name</TableCell>
                 <TableCell>Host</TableCell>
                 <TableCell>Active Status</TableCell>
-                <TableCell></TableCell>
+                <TableCell>Cpu Usage</TableCell>
+                <TableCell>Disk Usage</TableCell>
+                <TableCell>Ram Usage</TableCell>
+                <TableCell>View Graph</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -100,6 +105,27 @@ function ServerStatus() {
                         {server.isActive ? "Active" : "InActive"}
                       </Button>
                     </TableCell>
+                    <TableCell
+          style={{
+            color: server.cpuUsage > 80 ? 'red' : 'inherit' 
+          }}
+        >
+          {server.cpuUsage}%
+        </TableCell>
+        <TableCell
+          style={{
+            color: server.diskUsage > 80 ? 'red' : 'inherit' 
+          }}
+        >
+          {server.diskUsage}%
+        </TableCell>
+        <TableCell
+          style={{
+            color: server.ramUsage > 80 ? 'red' : 'inherit' 
+          }}
+        >
+          {server.ramUsage}%
+        </TableCell>
                     <TableCell>
                       <ZoomInIcon
                         onClick={handleZoomInClick}
@@ -119,7 +145,7 @@ function ServerStatus() {
 
 export default function IntegrationNotistack() {
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right' , vertical : "top"}} >
       <ServerStatus />
     </SnackbarProvider>
   );

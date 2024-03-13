@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, Grid, Typography } from '@mui/material';
+import { Card, CardHeader, Grid, Typography, Switch, Paper } from '@mui/material';
 
 const FlipClock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [is24HourFormat, setIs24HourFormat] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,29 +18,41 @@ const FlipClock = () => {
   };
 
   const formatHour = (hour) => {
-    return hour % 12 || 12;
+    if (is24HourFormat) {
+      return hour;
+    } else {
+      return hour % 12 || 12;
+    }
   };
 
   const getAmPm = (hour) => {
     return hour >= 12 ? 'PM' : 'AM';
   };
 
+  const handleToggleFormat = () => {
+    setIs24HourFormat((prevFormat) => !prevFormat);
+  };
+
   return (
-    <Card elevation={10} sx={{ height: 202 }}>
-      <CardHeader title="Web Clock" />
+    <Card sx={{ height: 156}}>
+      
       <Grid container direction="column" justifyContent="center" alignItems="center" spacing={1}>
-        <Grid item>
+     
+        <Grid item mt={2}>
           <Typography variant="h2">
             {formatHour(currentTime.getHours())}:
             {formatDigit(currentTime.getMinutes())}:
             {formatDigit(currentTime.getSeconds())}{' '}
-            {getAmPm(currentTime.getHours())}
+            {!is24HourFormat && getAmPm(currentTime.getHours())}
           </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="body3">
+          </Grid>
+      
+          <Typography variant="h5">
             {currentTime.toLocaleDateString()}  
           </Typography>
+        
+        <Grid item>
+          <Switch checked={is24HourFormat} onChange={handleToggleFormat} color="primary" />use 24 hr format
         </Grid>
       </Grid>
     </Card>

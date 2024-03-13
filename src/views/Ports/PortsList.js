@@ -103,7 +103,7 @@ const handleDelete = (id) =>{
                     {userType !== 'USER' && userType !== 'SUPERWISER' && (
                     <Button
                     component={RouterLink}
-                    to="/ports-detail"
+                    to="/Ports-detail"
                     variant="contained"
                     color="primary"
                     startIcon={<AddIcon />}

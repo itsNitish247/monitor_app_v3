@@ -106,9 +106,9 @@ function ServerGroupList() {
                   Refresh
                 </Button>
                 {userType !== 'USER' && userType !== 'SUPERWISER' && (
-                <Button
+                <Button 
                   component={RouterLink}
-                  to="/server-group-details"
+                  to="/Server-group-details"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

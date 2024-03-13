@@ -119,7 +119,7 @@ function GroupRequest() {
                 {userType !== 'USER' && userType !== 'SUPERWISER' && (
                 <Button
                   component={RouterLink}
-                  to="/add-monitor-group"
+                  to="/Add-monitor-group"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

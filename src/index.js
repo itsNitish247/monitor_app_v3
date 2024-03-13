@@ -9,6 +9,7 @@
 
   import { ThemeProvider } from '@mui/material/styles'; 
   import theme from './themes/theme'
+import { ServerCountProvider } from './context/CountsContenxt';
 
 
 
@@ -16,7 +17,9 @@
   createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <ThemeProvider theme={theme}> 
+      <ServerCountProvider> {/* Wrap your application with ServerCountProvider */}
         <App /> 
+      </ServerCountProvider>
       </ThemeProvider>
     </Provider>,
   );

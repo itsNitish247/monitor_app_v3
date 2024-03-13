@@ -1,4 +1,3 @@
-// theme.js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -26,26 +25,19 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Open Sans, sans-serif', 
-    fontSize: 7,
+    fontFamily: 'Poppins, sans-serif', 
+    fontSize: 9,
+    fontWeightRegular: 400,
+    fontWeightBold: 700,
   },
   overrides: {
     MuiCssBaseline: {
       '@global': {
-        '@import': [
-          "url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap')"
-        ],
-        html: {
-          height: '100%',
-        },
-        body: {
-          height: '100%',
-          margin: 0,
-          padding: 0,
-        },
-        '#root': {
-          width: '75%',
-          margin: '0 auto',
+        '@font-face': {
+          fontFamily: 'Poppins',
+          src: `url(${require('../Fonts/Poppins-Regular.ttf')}) format('truetype')`, 
+          fontWeight: 1,
+          fontStyle: 'normal',
         },
       },
     },

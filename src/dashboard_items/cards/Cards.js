@@ -26,7 +26,7 @@ function Cards() {
     >
       <Grid container spacing={2} justifyContent="center"> 
         <Grid item xs={3}>
-          <Link to="/email" style={{ textDecoration: 'none'}}>
+          <Link to="/Email" style={{ textDecoration: 'none'}}>
             <motion.div whileHover="hover" variants={cardVariants}>
             <Card elevation={5} sx={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' , backgroundColor :"#673ab7" }}>
                 <CardContent>
@@ -44,7 +44,7 @@ function Cards() {
         </Grid>
 
         <Grid item xs={3}>
-          <Link to="/problems" style={{ textDecoration: 'none'}}>
+          <Link to="/Problems" style={{ textDecoration: 'none'}}>
             <motion.div whileHover="hover" variants={cardVariants}>
               <Card elevation={5} sx={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' , backgroundColor :"#f44336" }}>
                 <CardContent>
@@ -62,7 +62,7 @@ function Cards() {
         </Grid>
 
         <Grid item xs={3}>
-          <Link to="/alerts" style={{ textDecoration: 'none'}}>
+          <Link to="/Alerts" style={{ textDecoration: 'none'}}>
             <motion.div whileHover="hover" variants={cardVariants}>
             <Card elevation={5} sx={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' , backgroundColor :"#FFAD01" }}>
                 <CardContent>
@@ -80,7 +80,7 @@ function Cards() {
         </Grid>
 
         <Grid item xs={3}>
-          <Link to="/users-activity" style={{ textDecoration: 'none'}}>
+          <Link to="/Users-activity" style={{ textDecoration: 'none'}}>
             <motion.div whileHover="hover" variants={cardVariants}>
             <Card elevation={5} sx={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' , backgroundColor :"#0288d1" }}>
                 <CardContent>

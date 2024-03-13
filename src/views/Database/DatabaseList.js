@@ -323,7 +323,7 @@ function DatabaseList() {
                 {userType !== 'USER' && userType !== 'SUPERWISER' && (
                 <Button
                   component={RouterLink}
-                  to="/database-detail"
+                  to="/Database-detail"
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

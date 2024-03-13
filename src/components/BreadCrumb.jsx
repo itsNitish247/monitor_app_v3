@@ -31,7 +31,7 @@ export default function ActiveLastBreadcrumb() {
   return (
     <Grid container>
       <Grid item xs={12} onClick={handleClick}>
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{borderRadius :2}}>
           <CardContent style={{ padding: '8px' }}>
             <Grid container justifyContent="space-between" alignItems="center">
               <Grid item>
@@ -42,7 +42,7 @@ export default function ActiveLastBreadcrumb() {
                     return isLast ? (
                       <Link
                         key={name}
-                        underline="hover"
+                        underline="none"
                         color="text.primary"
                         aria-current="page"
                       >

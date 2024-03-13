@@ -271,262 +271,262 @@
 
 
 
-import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Paper,
-  CardContent,
-  CardHeader,
-  Grid,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Skeleton,
-  Snackbar,
-  Alert,
-  Card,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from "@mui/material";
+// import React, { useState, useEffect } from 'react';
+// import {
+//   Button,
+//   Paper,
+//   CardContent,
+//   CardHeader,
+//   Grid,
+//   Typography,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableContainer,
+//   TableHead,
+//   TableRow,
+//   Skeleton,
+//   Snackbar,
+//   Alert,
+//   Card,
+//   Dialog,
+//   DialogTitle,
+//   DialogContent,
+//   DialogActions
+// } from "@mui/material";
 
-import { getGroups } from '../api/groups-service';
-import { Refresh as RefreshIcon, ZoomIn as ZoomInIcon } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
+// import { getGroups } from '../api/groups-service';
+// import { Refresh as RefreshIcon, ZoomIn as ZoomInIcon } from '@mui/icons-material';
+// import { useTheme } from '@mui/material/styles';
 
-function GroupStatus() {
-  const theme = useTheme();
-  const [groups, setGroups] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+// function GroupStatus() {
+//   const theme = useTheme();
+//   const [groups, setGroups] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [snackbarOpen, setSnackbarOpen] = useState(false);
+//   const [snackbarMessage, setSnackbarMessage] = useState("");
+//   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  // Dialog States
-  const [openActiveDialog, setOpenActiveDialog] = useState(false);
-  const [openInactiveDialog, setOpenInactiveDialog] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+//   // Dialog States
+//   const [openActiveDialog, setOpenActiveDialog] = useState(false);
+//   const [openInactiveDialog, setOpenInactiveDialog] = useState(false);
+//   const [selectedGroup, setSelectedGroup] = useState(null);
 
-  useEffect(() => {
-    fetchGroups();
-  }, []);
+//   useEffect(() => {
+//     fetchGroups();
+//   }, []);
 
-  const handleRefresh = () => {
-    setLoading(true);
-    fetchGroups();
-  };
+//   const handleRefresh = () => {
+//     setLoading(true);
+//     fetchGroups();
+//   };
 
-  const fetchGroups = () => {
-    getGroups()
-      .then((response) => {
-        console.log("Groups data:", response.data);
-        setTimeout(() => {
-          setGroups(response.data);
-          setLoading(false);
-          if (response.data.length > 0) {
-            showSnackbar("Successfully fetched all Groups.", "success");
-          }
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log(error);
-        showSnackbar("Error fetching groups: " + error.message, "error");
-      });
-  };
+//   const fetchGroups = () => {
+//     getGroups()
+//       .then((response) => {
+//         console.log("Groups data:", response.data);
+//         setTimeout(() => {
+//           setGroups(response.data);
+//           setLoading(false);
+//           if (response.data.length > 0) {
+//             showSnackbar("Successfully fetched all Groups.", "success");
+//           }
+//         }, 1000);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         showSnackbar("Error fetching groups: " + error.message, "error");
+//       });
+//   };
 
-  const showSnackbar = (message, severity) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setSnackbarOpen(true);
-  };
+//   const showSnackbar = (message, severity) => {
+//     setSnackbarMessage(message);
+//     setSnackbarSeverity(severity);
+//     setSnackbarOpen(true);
+//   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
+//   const handleCloseSnackbar = () => {
+//     setSnackbarOpen(false);
+//   };
 
-  // Dialog Handlers
-  const handleOpenActiveDialog = (group) => {
-    setSelectedGroup(group);
-    setOpenActiveDialog(true);
-  };
+//   // Dialog Handlers
+//   const handleOpenActiveDialog = (group) => {
+//     setSelectedGroup(group);
+//     setOpenActiveDialog(true);
+//   };
 
-  const handleCloseActiveDialog = () => {
-    setOpenActiveDialog(false);
-  };
+//   const handleCloseActiveDialog = () => {
+//     setOpenActiveDialog(false);
+//   };
 
-  const handleOpenInactiveDialog = (group) => {
-    setSelectedGroup(group);
-    setOpenInactiveDialog(true);
-  };
+//   const handleOpenInactiveDialog = (group) => {
+//     setSelectedGroup(group);
+//     setOpenInactiveDialog(true);
+//   };
 
-  const handleCloseInactiveDialog = () => {
-    setOpenInactiveDialog(false);
-  };
+//   const handleCloseInactiveDialog = () => {
+//     setOpenInactiveDialog(false);
+//   };
 
-  return (
-    <>
-      {loading ? (
-        <Grid item xs={12}>
-          <Card elevation={3}>
-            <CardContent>
-              <Skeleton animation="wave" height={50} />
-              <Skeleton animation="wave" height={50} />
-              <Skeleton animation="wave" height={50} />
-            </CardContent>
-          </Card>
-        </Grid>
-      ) : (
-        <>
-          {groups.length === 0 ? (
-            <Grid item xs={12}>
-              <Card elevation={3}>
-                <CardHeader title="Groups" />
-                <CardContent>
-                  <Typography variant="body1">Add Groups to check for Status</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ) : (
-            <>
-              {groups.map((group, index) => (
-                <Grid item xs={12} key={index}>
-                  <Card elevation={3}>
-                    <CardHeader
-                      title={group.name}
-                      action={
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<RefreshIcon />}
-                          onClick={handleRefresh}
-                        >
-                          Refresh
-                        </Button>
-                      }
-                    />
-                    <CardContent>
-                      <Grid container spacing={2}>
-                        {/* Active Dialog */}
-                        <Grid item xs={3} >
-                          <Card elevation={3} >
-                            <CardContent>
-                              <Typography variant="h6" gutterBottom>
-                                Active Items
-                              </Typography>
-                              <Button  variant="contained" color='success' sx={{width:"100px" , marginTop:2}} onClick={() => handleOpenActiveDialog(group)}>Open Active items</Button>
-                              {/* Active Dialog */}
-                              <Dialog
-                                open={openActiveDialog}
-                                onClose={handleCloseActiveDialog}
-                                aria-labelledby="active-dialog-title"
-                              >
-                                <DialogTitle id="active-dialog-title">Active Items</DialogTitle>
-                                <DialogContent>
-                                  {/* Active Items Content */}
-                                  <TableContainer>
-                                    <Table>
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
-                                          <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host/URL</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {selectedGroup?.servers.concat(selectedGroup.webServices, selectedGroup.databases).map((item, itemIndex) => (
-                                          item.isActive && (
-                                            <TableRow key={itemIndex}>
-                                              <TableCell align="center">{item.name}</TableCell>
-                                              <TableCell align="center">{item.host || item.url}</TableCell>
-                                            </TableRow>
-                                          )
-                                        ))}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button onClick={handleCloseActiveDialog}>Close</Button>
-                                </DialogActions>
-                              </Dialog>
-                            </CardContent>
-                          </Card>
-                        </Grid>
+//   return (
+//     <>
+//       {loading ? (
+//         <Grid item xs={12}>
+//           <Card elevation={3}>
+//             <CardContent>
+//               <Skeleton animation="wave" height={50} />
+//               <Skeleton animation="wave" height={50} />
+//               <Skeleton animation="wave" height={50} />
+//             </CardContent>
+//           </Card>
+//         </Grid>
+//       ) : (
+//         <>
+//           {groups.length === 0 ? (
+//             <Grid item xs={12}>
+//               <Card elevation={3}>
+//                 <CardHeader title="Groups" />
+//                 <CardContent>
+//                   <Typography variant="body1">Add Groups to check for Status</Typography>
+//                 </CardContent>
+//               </Card>
+//             </Grid>
+//           ) : (
+//             <>
+//               {groups.map((group, index) => (
+//                 <Grid item xs={12} key={index}>
+//                   <Card elevation={3}>
+//                     <CardHeader
+//                       title={group.name}
+//                       action={
+//                         <Button
+//                           variant="contained"
+//                           color="secondary"
+//                           startIcon={<RefreshIcon />}
+//                           onClick={handleRefresh}
+//                         >
+//                           Refresh
+//                         </Button>
+//                       }
+//                     />
+//                     <CardContent>
+//                       <Grid container spacing={2}>
+//                         {/* Active Dialog */}
+//                         <Grid item xs={3} >
+//                           <Card elevation={3} >
+//                             <CardContent>
+//                               <Typography variant="h6" gutterBottom>
+//                                 Active Items
+//                               </Typography>
+//                               <Button  variant="contained" color='success' sx={{width:"100px" , marginTop:2}} onClick={() => handleOpenActiveDialog(group)}>Open Active items</Button>
+//                               {/* Active Dialog */}
+//                               <Dialog
+//                                 open={openActiveDialog}
+//                                 onClose={handleCloseActiveDialog}
+//                                 aria-labelledby="active-dialog-title"
+//                               >
+//                                 <DialogTitle id="active-dialog-title">Active Items</DialogTitle>
+//                                 <DialogContent>
+//                                   {/* Active Items Content */}
+//                                   <TableContainer>
+//                                     <Table>
+//                                       <TableHead>
+//                                         <TableRow>
+//                                           <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+//                                           <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host/URL</TableCell>
+//                                         </TableRow>
+//                                       </TableHead>
+//                                       <TableBody>
+//                                         {selectedGroup?.servers.concat(selectedGroup.webServices, selectedGroup.databases).map((item, itemIndex) => (
+//                                           item.isActive && (
+//                                             <TableRow key={itemIndex}>
+//                                               <TableCell align="center">{item.name}</TableCell>
+//                                               <TableCell align="center">{item.host || item.url}</TableCell>
+//                                             </TableRow>
+//                                           )
+//                                         ))}
+//                                       </TableBody>
+//                                     </Table>
+//                                   </TableContainer>
+//                                 </DialogContent>
+//                                 <DialogActions>
+//                                   <Button onClick={handleCloseActiveDialog}>Close</Button>
+//                                 </DialogActions>
+//                               </Dialog>
+//                             </CardContent>
+//                           </Card>
+//                         </Grid>
 
-                        {/* Inactive Dialog */}
-                        <Grid item xs={3}>
-                          <Card elevation={3}>
-                            <CardContent>
-                              <Typography variant="h6" gutterBottom>
-                                Inactive Items
-                              </Typography>
-                              <Button variant='contained' color='error'  sx={{width:"100px" , marginTop:2}} onClick={() => handleOpenInactiveDialog(group)}>Open Inactive Items</Button>
+//                         {/* Inactive Dialog */}
+//                         <Grid item xs={3}>
+//                           <Card elevation={3}>
+//                             <CardContent>
+//                               <Typography variant="h6" gutterBottom>
+//                                 Inactive Items
+//                               </Typography>
+//                               <Button variant='contained' color='error'  sx={{width:"100px" , marginTop:2}} onClick={() => handleOpenInactiveDialog(group)}>Open Inactive Items</Button>
                             
-                              {/* Inactive Dialog */}
-                              <Dialog
-                                open={openInactiveDialog}
-                                onClose={handleCloseInactiveDialog}
-                                aria-labelledby="inactive-dialog-title"
-                              >
-                                <DialogTitle id="inactive-dialog-title">Inactive Items</DialogTitle>
-                                <DialogContent>
-                                  {/* Inactive Items Content */}
-                                  <TableContainer>
-                                    <Table>
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
-                                          <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host/URL</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {selectedGroup?.servers.concat(selectedGroup.webServices, selectedGroup.databases).map((item, itemIndex) => (
-                                          !item.isActive && (
-                                            <TableRow key={itemIndex}>
-                                              <TableCell align="center">{item.name}</TableCell>
-                                              <TableCell align="center">{item.host || item.url}</TableCell>
-                                            </TableRow>
-                                          )
-                                        ))}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button onClick={handleCloseInactiveDialog}>Close</Button>
-                                </DialogActions>
-                              </Dialog>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-              <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-              >
-                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
-                  {snackbarMessage}
-                </Alert>
-              </Snackbar>
-            </>
-          )}
-        </>
-      )}
-    </>
-  );
-}
+//                               {/* Inactive Dialog */}
+//                               <Dialog
+//                                 open={openInactiveDialog}
+//                                 onClose={handleCloseInactiveDialog}
+//                                 aria-labelledby="inactive-dialog-title"
+//                               >
+//                                 <DialogTitle id="inactive-dialog-title">Inactive Items</DialogTitle>
+//                                 <DialogContent>
+//                                   {/* Inactive Items Content */}
+//                                   <TableContainer>
+//                                     <Table>
+//                                       <TableHead>
+//                                         <TableRow>
+//                                           <TableCell align="center" sx={{ fontWeight: 'bold' }}>Name</TableCell>
+//                                           <TableCell align="center" sx={{ fontWeight: 'bold' }}>Host/URL</TableCell>
+//                                         </TableRow>
+//                                       </TableHead>
+//                                       <TableBody>
+//                                         {selectedGroup?.servers.concat(selectedGroup.webServices, selectedGroup.databases).map((item, itemIndex) => (
+//                                           !item.isActive && (
+//                                             <TableRow key={itemIndex}>
+//                                               <TableCell align="center">{item.name}</TableCell>
+//                                               <TableCell align="center">{item.host || item.url}</TableCell>
+//                                             </TableRow>
+//                                           )
+//                                         ))}
+//                                       </TableBody>
+//                                     </Table>
+//                                   </TableContainer>
+//                                 </DialogContent>
+//                                 <DialogActions>
+//                                   <Button onClick={handleCloseInactiveDialog}>Close</Button>
+//                                 </DialogActions>
+//                               </Dialog>
+//                             </CardContent>
+//                           </Card>
+//                         </Grid>
+//                       </Grid>
+//                     </CardContent>
+//                   </Card>
+//                 </Grid>
+//               ))}
+//               <Snackbar
+//                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+//                 open={snackbarOpen}
+//                 autoHideDuration={3000}
+//                 onClose={handleCloseSnackbar}
+//               >
+//                 <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+//                   {snackbarMessage}
+//                 </Alert>
+//               </Snackbar>
+//             </>
+//           )}
+//         </>
+//       )}
+//     </>
+//   );
+// }
 
-export default GroupStatus;
+// export default GroupStatus;
 
 // import React, { useState, useEffect } from 'react';
 // import {
@@ -1006,3 +1006,199 @@ export default GroupStatus;
 // }
 
 // export default GroupStatus;
+
+
+
+//graph
+
+import React, { useEffect, useState } from 'react';
+import Chart from 'react-apexcharts';
+import { getGroups } from '../api/groups-service';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+
+const GroupStatus = () => {
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    fetchGroups();
+  }, []);
+
+  const fetchGroups = () => {
+    getGroups()
+      .then((response) => {
+        console.log("Groups data:", response.data);
+        setTimeout(() => {
+          setGroups(response.data);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const processData = () => {
+    return groups.map(group => {
+      const activeServers = group.servers.filter(server => server.isActive).length;
+      const inactiveServers = group.servers.length - activeServers;
+
+      const activeWebServices = group.webServices.filter(service => service.isActive).length;
+      const inactiveWebServices = group.webServices.length - activeWebServices;
+
+      const activeDatabases = group.databases.filter(database => database.isActive).length;
+      const inactiveDatabases = group.databases.length - activeDatabases;
+
+      return {
+        name: group.name,
+        activeServers,
+        inactiveServers,
+        activeWebServices,
+        inactiveWebServices,
+        activeDatabases,
+        inactiveDatabases,
+        servers: group.servers.map(server => ({ name: server.name })),
+        databases: group.databases.map(database => ({ name: database.name })),
+        webServices: group.webServices.map(webService => ({ url: webService.url }))
+      };
+    });
+  };
+
+  const options = {
+    chart: {
+      type: 'bar',
+      height: 350,
+      stacked: true,
+      toolbar: {
+        show: true
+      }
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+      },
+    },
+    stroke: {
+      width: 1,
+      colors: ['#fff']
+    },
+    title: {
+      text: 'Active and Inactive Items by Group',
+    },
+    xaxis: {
+      categories: processData().map(data => data.name),
+    },
+    yaxis: {
+      title: {
+        text: 'Count'
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val, opts) {
+          const category = opts.w.globals.labels[opts.dataPointIndex];
+          const groupData = processData().find(data => data.name === category);
+          let tooltipText = '';
+    
+          // Displaying servers
+          tooltipText += '<strong>Servers:</strong><br/>';
+          groupData.servers.forEach(server => {
+            tooltipText += `${server.name} </br>`;
+          });
+    
+          // Displaying databases
+          tooltipText += '<br/><strong>Databases:</strong><br/>';
+          groupData.databases.forEach(database => {
+            tooltipText += `${database.name} </br>`;
+          });
+    
+          // Displaying web services
+          tooltipText += '<br/><strong>Web Services:</strong><br/>';
+          groupData.webServices.forEach(webService => {
+            tooltipText += `${webService.url} </br> `;
+          });
+    
+          return tooltipText;
+        }
+      }
+    },
+  
+    fill: {
+      opacity: 1
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left',
+      offsetX: 40
+    }
+  };
+
+  const series = [{
+    name: 'Active Servers',
+    data: processData().map(data => data.activeServers),
+    color: '#673ab7'
+  }, {
+    name: 'Inactive Servers',
+    data: processData().map(data => data.inactiveServers),
+    color: '#ff0000'
+  }, {
+    name: 'Active Web Services',
+    data: processData().map(data => data.activeWebServices),
+    color: '#0288d1'
+  }, {
+    name: 'Inactive Web Services',
+    data: processData().map(data => data.inactiveWebServices),
+    color: '#ff0000'
+  }, {
+    name: 'Active Databases',
+    data: processData().map(data => data.activeDatabases),
+    color: '#027148'
+  }, {
+    name: 'Inactive Databases',
+    data: processData().map(data => data.inactiveDatabases),
+    color: '#ff0000'
+  }];
+
+  return (
+    <Grid item xs={12}>
+      <Card>
+        <CardContent>
+          <Chart
+            options={options}
+            series={series}
+            type="bar"
+            height={350}
+         
+          />
+        </CardContent>
+      </Card>
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogTitle>{selectedItem && selectedItem.type}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {selectedItem && selectedItem.name}
+            <br />
+            {selectedItem && selectedItem.url}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
+  );
+};
+
+export default GroupStatus;

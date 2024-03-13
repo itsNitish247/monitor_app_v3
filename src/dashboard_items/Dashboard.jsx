@@ -19,20 +19,20 @@ export default function Dashboard() {
       <Grid item xs={12}>
        <Cards />
       </Grid>
-      <Grid item xs={12} style={{ marginBottom: '10px' }}></Grid>
+      <Grid item xs={12} style={{ marginBottom: 1 }}></Grid>
 
 <Items />
 
-     <Grid item xs={12} style={{ marginBottom: '16px' }}></Grid>
+     <Grid item xs={12} style={{ marginBottom: 1 }}></Grid>
      <GroupStatus />
 
 
-        <Grid item xs={12} style={{ marginBottom: '16px' }}>  
+        <Grid item xs={12} style={{ marginBottom: 1 }}>  
      </Grid>
       <ServerStatus />
-      <Grid item xs={12} style={{ marginBottom: '16px' }}>
+      {/* <Grid item xs={12} style={{ marginBottom: '16px' }}>
      </Grid>
-     <ServerGroupStatus />
+     <ServerGroupStatus /> */}
      <Grid item xs={12} style={{ marginBottom: '16px' }}>
      </Grid>
      <DatabaseStatus />
